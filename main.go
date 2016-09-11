@@ -45,7 +45,7 @@ func contentHandler(path *string) {
 			m["bath"] = value
 		case "7":
 			m["rest"] = value
-		case "13":
+		case "11":
 			m["mua"] = value
 		default:
 			m["unknown, please report an issue"] = value
@@ -99,9 +99,10 @@ func input() {
 }
 
 func main() {
-	path := flag.String("path", "welove.conf", "log文件路径，默认当前路径")
+	path := flag.String("path", "welove.toml", "log文件路径，默认当前路径")
 	port := flag.String("port", ":8080", "Http代理端口号")
 	flag.Parse()
+	log.Printf("请将手机Http代理设置为[本机IP%s]\n", *port)
 	go input()
 	go contentHandler(path)
 	proxy := goproxy.NewProxyHttpServer()
