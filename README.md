@@ -3,9 +3,11 @@
 ```
 go get github.com/Bpazy/welove520
 welove520 -path=welove.conf -port=:8080
+
 将手机http代理设置为本机的8080端口
+输入#回车终止程序
 ```
-微爱请求关键信息在执行后保存在根目录welove.conf中
+微爱请求关键信息在执行后默认保存在根目录welove.toml中
 
 由Python发送post请求 [Example](https://github.com/Bpazy/welove520_API/blob/master/example/post.py)
 
