@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"flag"
 	"github.com/BurntSushi/toml"
 	"github.com/elazarl/goproxy"
 	"io/ioutil"
@@ -11,7 +12,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
-	"flag"
+	"net/url"
 )
 
 type WeloveValue struct {
@@ -81,8 +82,12 @@ func httpHandler(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.R
 		strings.Contains(content, "love_space_id") &&
 		strings.Contains(content, "access_token") &&
 		strings.Contains(content, "task_type") {
-		log.Println(content)
-		sChan <- content
+		dContent, err := url.QueryUnescape(content)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("Decode [%s] to [%s]\n", content, dContent)
+		sChan <- dContent
 	}
 	return r, nil
 }

@@ -3,7 +3,7 @@
 ```
 go get github.com/Bpazy/welove520
 welove520 -path=welove.conf -port=:8080
-在手机设置http代理为本机的8080端口
+将手机http代理设置为本机的8080端口
 ```
 微爱请求关键信息在执行后保存在根目录welove.conf中
 
@@ -13,4 +13,4 @@ welove520 -path=welove.conf -port=:8080
 
 `echo "*/30 * * * * python welove.py" >> /var/spool/cron/root`
 
-[微爱API接口](https://github.com/Bpazy/welove520_API/blob/master/example/API.md)
+微爱API接口 [点击此处](https://github.com/Bpazy/welove520_API/blob/master/example/API.md)
