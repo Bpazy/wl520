@@ -24,7 +24,7 @@ type WeloveValue struct {
 
 var sChan = make(chan string)
 
-func contentHandler(path *string) {
+func contentHandler(path, alias *string) {
 	var f, _ = os.Create(*path)
 	defer f.Close()
 	var encoder = toml.NewEncoder(f)
@@ -37,19 +37,19 @@ func contentHandler(path *string) {
 		value := WeloveValue{accessToken, taskType, loveSpaceId, sig}
 		switch taskType {
 		case "1":
-			m["home"] = value
+			m[*alias + ":home"] = value
 		case "4":
-			m["eat"] = value
+			m[*alias + ":eat"] = value
 		case "5":
-			m["sleep"] = value
+			m[*alias + ":sleep"] = value
 		case "6":
-			m["bath"] = value
+			m[*alias + ":bath"] = value
 		case "7":
-			m["rest"] = value
+			m[*alias + ":rest"] = value
 		case "11":
-			m["mua"] = value
+			m[*alias + ":mua"] = value
 		default:
-			m["unknown, please report an issue"] = value
+			m[*alias + ":unknown, please report an issue"] = value
 		}
 		encoder.Encode(m)
 	}
@@ -104,12 +104,13 @@ func input() {
 }
 
 func main() {
-	path := flag.String("path", "welove.toml", "log文件路径，默认当前路径")
+	path := flag.String("path", "welove.toml", "生成的配置文件路径")
 	port := flag.String("port", ":8080", "Http代理端口号")
+	alias := flag.String("alias", "default", "生成配置文件详细配置的别名")
 	flag.Parse()
 	log.Printf("请将手机Http代理设置为[本机IP%s]\n", *port)
 	go input()
-	go contentHandler(path)
+	go contentHandler(path, alias)
 	proxy := goproxy.NewProxyHttpServer()
 	proxy.Verbose = false
 	proxy.OnRequest().DoFunc(httpHandler)
