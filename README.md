@@ -2,7 +2,7 @@
 ### 下载并使用
 ```
 go get github.com/Bpazy/welove520
-welove520 -path=welove.conf -port=:8080
+welove520 -path=welove.toml -port=:8080
 
 将手机http代理设置为本机的8080端口
 输入#回车终止程序
