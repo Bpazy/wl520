@@ -1,7 +1,7 @@
 language: go
 
 go:
-  - tip
+  - 1.7.1
 
 install:
   - go get github.com/BurntSushi/toml
