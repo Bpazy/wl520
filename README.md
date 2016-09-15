@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.org/Bpazy/welove520.svg?branch=master)](https://travis-ci.org/Bpazy/welove520)
 ### 下载并使用
 ```
 go get github.com/Bpazy/welove520
