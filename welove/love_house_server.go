@@ -102,12 +102,12 @@ func input() {
 	}
 }
 
-func ServerRun(path, port, alias *string) {
-	log.Printf("请将手机Http代理设置为[本机IP%s]\n", *port)
+func ServerRun(path, port, alias string) {
+	log.Printf("请将手机Http代理设置为[本机IP%s]\n", port)
 	go input()
-	go contentHandler(path, alias)
+	go contentHandler(&path, &alias)
 	proxy := goproxy.NewProxyHttpServer()
 	proxy.Verbose = false
 	proxy.OnRequest().DoFunc(httpHandler)
-	log.Fatal(http.ListenAndServe(*port, proxy))
+	log.Fatal(http.ListenAndServe(port, proxy))
 }
