@@ -6,3 +6,4 @@ go:
 install:
   - go get github.com/BurntSushi/toml
   - go get github.com/elazarl/goproxy
+  - go get github.com/bitly/go-simplejson
