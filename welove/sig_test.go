@@ -7,7 +7,7 @@ import (
 	"reflect"
 )
 
-func TestSig_Encode(t *testing.T) {
+func TestSigEncode(t *testing.T) {
 	method := "POST"
 	u := "http://api.welove520.com/v1/game/house/task"
 	d1 := Data{"access_token", "562949961343086-2ca7e299a09974dd0"}

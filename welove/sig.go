@@ -6,7 +6,6 @@ import (
 	"crypto/sha1"
 	"net/url"
 	"encoding/base64"
-	"fmt"
 )
 
 type Sig struct {
@@ -27,7 +26,6 @@ func (l *Sig)Encode(method, u string, data ...Data) string {
 		content = content + v.key + "=" + v.value + "&"
 	}
 	content = content[0:len(content) - 1]
-	fmt.Println(content)
 	l.myMac.Write([]byte(method + "&" + url.QueryEscape(u) + "&" + url.QueryEscape(content)))
 	return base64.StdEncoding.EncodeToString(l.myMac.Sum(nil))
 }
