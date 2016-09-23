@@ -28,7 +28,7 @@ func TestVisit(t *testing.T) {
 		t.Error(err)
 	}
 	result, _ := js.Get("result").Int()
-	if result != 1 {
+	if result != 1 && result != 1201 {
 		t.Error("响应值result错误.")
 	}
 }
