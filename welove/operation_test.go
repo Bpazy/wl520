@@ -6,7 +6,6 @@ import (
 	"log"
 	"github.com/bitly/go-simplejson"
 	"encoding/json"
-	"fmt"
 )
 
 func TestTreePost(t *testing.T) {
