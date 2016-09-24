@@ -32,7 +32,7 @@ func (c *CustomOutput) Write(p []byte) (int, error) {
 }
 
 func DefaultLog(path string) CustomOutput {
-	var file, _ = os.OpenFile(path, os.O_APPEND | os.O_CREATE, os.ModeAppend)
+	var file, _ = os.OpenFile(path, os.O_APPEND | os.O_CREATE | os.O_RDWR, os.ModeAppend)
 	return New(os.Stdout, file)
 }
 
