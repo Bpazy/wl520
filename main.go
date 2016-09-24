@@ -12,9 +12,9 @@ import (
 type Love struct {
 	AccessToken string `json:"access_token"`
 	LoveSpaceId string `json:"love_space_id"`
+	AppKey      string `json:"app_key"`
 	TaskType    []int `json:"task_type"`
 }
-
 
 func main() {
 	isServer := flag.Bool("s", false, "启动我们的家HTTP代理")
@@ -25,48 +25,60 @@ func main() {
 	configPath := flag.String("c", "welove.json", "配置文件位置")
 	visitTimes := flag.Int("v", -1, "每日拜访次数")
 	outputPath := flag.String("o", "welove.log", "日志路径")
-
+	tree := flag.Bool("t", false, "是否完成爱情树任务")
 	flag.Parse()
 
-	output := welove.DefaultLog(*outputPath)
-	log.SetOutput(&output)
-
-	/**
-	是否开启代理服务器
-	 */
+	love := initConfig(*outputPath, *configPath)
+	//是否开启代理服务器
 	if *isServer {
 		welove.ServerRun(*path, *port, *alias)
 	}
+	//完成互动任务
+	if *allTask {
+		doAllTask(love)
+	}
+	//拜访任务
+	if *visitTimes != -1 {
+		doVisit(*visitTimes, love)
+	}
+	//爱情树任务
+	if *tree {
+		doTreePost(love)
+	}
+}
 
-	/**
-	读取配置文件
-	 */
-	bytes, err := ioutil.ReadFile(*configPath)
+func doTreePost(love Love) {
+	op := []int{1, 2}
+	for _, v := range op {
+		res, err := welove.TreePost(love.AccessToken, love.AppKey, v)
+		if err != nil {
+			log.Fatal(err)
+		}
+		bytes, _ := ioutil.ReadAll(res.Body)
+		js, _ := simplejson.NewJson(bytes)
+		result, _ := js.Get("result").Int()
+		log.Printf("爱情树result: %d, Raw: %s\n", result, string(bytes))
+	}
+}
+func initConfig(outputPath, configPath string) Love {
+	//配置日志
+	output := welove.DefaultLog(outputPath)
+	log.SetOutput(&output)
+
+	//读取配置文件
+	bytes, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		log.Fatal(err)
 	}
 	love := Love{}
 	json.Unmarshal(bytes, &love)
-
-	/**
-	完成互动任务
-	 */
-	if *allTask {
-		doAllTask(love)
-	}
-
-	/**
-	拜访任务
-	 */
-	if *visitTimes != -1 {
-		doVisit(*visitTimes, love.AccessToken)
-	}
+	return love
 }
 
-func doVisit(visitTimes int, accessToken string) {
+func doVisit(visitTimes int, love Love) {
 	for i := 0; i < visitTimes; i++ {
-		if id, ok := welove.RandomHouse(accessToken); ok {
-			res, err := welove.Visit(accessToken, id)
+		if id, ok := welove.RandomHouse(love.AccessToken); ok {
+			res, err := welove.Visit(love.AccessToken, id)
 			if err != nil {
 				log.Fatal(err)
 			}
