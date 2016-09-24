@@ -15,6 +15,7 @@ type Love struct {
 	TaskType    []int `json:"task_type"`
 }
 
+
 func main() {
 	isServer := flag.Bool("s", false, "启动我们的家HTTP代理")
 	path := flag.String("path", "welove.toml", "我们的家生成的配置文件路径")
@@ -23,8 +24,12 @@ func main() {
 	allTask := flag.Bool("a", false, "完成所有我们的家互动任务")
 	configPath := flag.String("c", "welove.json", "配置文件位置")
 	visitTimes := flag.Int("v", -1, "每日拜访次数")
+	outputPath := flag.String("o", "welove.log", "日志路径")
 
 	flag.Parse()
+
+	output := welove.DefaultLog(*outputPath)
+	log.SetOutput(&output)
 
 	/**
 	是否开启代理服务器
