@@ -42,9 +42,9 @@ Usage of welove520:
   -port string
         我们的家Http代理端口号 (default ":8080")
   -s    启动我们的家HTTP代理
+  -t    是否完成爱情树任务
   -v int
         每日拜访次数 (default -1)
-
 ```
 
 微爱API接口 [点击此处](https://github.com/Bpazy/welove520/blob/master/API.md)
