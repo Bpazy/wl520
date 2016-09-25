@@ -1,12 +1,12 @@
 package welove
 
 import (
-	"strconv"
-	"net/url"
-	"net/http"
-	"log"
-	"io/ioutil"
 	"github.com/bitly/go-simplejson"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"net/url"
+	"strconv"
 )
 
 func TreePost(accessToken, appKey string, op int) (*http.Response, error) {
@@ -26,14 +26,13 @@ func TreePost(accessToken, appKey string, op int) (*http.Response, error) {
 	return res, err
 }
 
-
 func HomePost(accessToken string, taskType int, loveSpaceId string) (*http.Response, error) {
 	u := "http://api.welove520.com/v1/game/house/task"
 	sigEncoder := NewSig([]byte("8b5b6eca8a9d1d1f"))
-	d1:=Data{"access_token", accessToken}
-	d2:=Data{"love_space_id", loveSpaceId}
-	d3:=Data{"task_type", strconv.Itoa(taskType)}
-	sig := sigEncoder.Encode("POST", u, d1,d2,d3)
+	d1 := Data{"access_token", accessToken}
+	d2 := Data{"love_space_id", loveSpaceId}
+	d3 := Data{"task_type", strconv.Itoa(taskType)}
+	sig := sigEncoder.Encode("POST", u, d1, d2, d3)
 
 	data := make(url.Values)
 	data.Add("access_token", accessToken)
@@ -92,4 +91,27 @@ func Visit(accessToken, loveSpaceId string) (*http.Response, error) {
 	values.Add("sig", sig)
 	res, err := http.PostForm(u, values)
 	return res, err
+}
+
+func GetLoveSpaceIdRaw(accessToken, appKey string) (*http.Response, error) {
+	u := "http://api.welove520.com/v5/useremotion/getone"
+	d1 := Data{"access_token", accessToken}
+	d2 := Data{"app_key", appKey}
+	d3 := Data{"user_id", "0"}
+	sigEncoder := NewSig([]byte("8b5b6eca8a9d1d1f"))
+	sig := sigEncoder.Encode("POST", u, d1, d2, d3)
+
+	data := make(url.Values)
+	data.Add("access_token", accessToken)
+	data.Add("app_key", appKey)
+	data.Add("user_id", "0")
+	data.Add("sig", sig)
+	res, err := http.PostForm(u, data)
+	return res, err
+}
+
+func GetLoveSpaceId(body string) string {
+	js, _ := simplejson.NewJson([]byte(body))
+	loveSpaceId, _ := js.Get("love_space_id").Float64()
+	return strconv.Itoa(int(loveSpaceId))
 }
