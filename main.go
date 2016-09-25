@@ -1,19 +1,18 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"github.com/Bpazy/welove520/welove"
+	"github.com/bitly/go-simplejson"
 	"io/ioutil"
 	"log"
-	"encoding/json"
-	"github.com/bitly/go-simplejson"
 )
 
 type Love struct {
 	AccessToken string `json:"access_token"`
-	LoveSpaceId string `json:"love_space_id"`
 	AppKey      string `json:"app_key"`
-	TaskType    []int `json:"task_type"`
+	TaskType    []int  `json:"task_type"`
 }
 
 func main() {
@@ -91,8 +90,14 @@ func doVisit(visitTimes int, love Love) {
 }
 
 func doAllTask(love Love) {
+	res, err := welove.GetLoveSpaceIdRaw(love.AccessToken, love.AppKey)
+	if err != nil {
+		log.Fatal(err)
+	}
+	bytes, _ := ioutil.ReadAll(res.Body)
+	loveSpaceId := welove.GetLoveSpaceId(string(bytes))
 	for _, v := range love.TaskType {
-		res, err := welove.HomePost(love.AccessToken, v, love.LoveSpaceId)
+		res, err := welove.HomePost(love.AccessToken, v, loveSpaceId)
 		if err != nil {
 			log.Printf("任务%d错误\n", love.TaskType)
 		}
