@@ -1,16 +1,6 @@
 # API分析
 
 ### 1. URL
-```
-Host: api.welove520.com
-/v1/game/house/info  房间物品的详细信息
-/v1/game/house/tips  自己的信息
-/v1/game/house/info  点击随机的时候，返回JSON，love_space_id为房间编码
-/v1/game/house/task  执行各种动作
-/v1/geo/location     设置位置
-/v1/geo/weathers     获取双方天气，基于location发送的数据获取
-```
-
 `access_token`: `56294XXXX343086-27152XXXXXa5746dd`(抓包获取，登录之后保持不变)
 
 `sig`: `WXjA+ujXTVKUfv9lfVMGo6pxbis=` (**加密字段**)
@@ -20,13 +10,6 @@ Host: api.welove520.com
 
 ### 2. 我们的家
 ```
-"task_type": "7", (不同动作有不同的值)
-"love_space_id": "844424932415867",(每一个家庭有唯一的值) 
-
-app_key: ac5f3XXXXa4344c4
-love_space_id  房间唯一编号
-access_token: 56294XXXX343086-27152XXXXXa5746dd  固定值
-sig: Jz8sL8eV2znw0p9abpgyJjGhgPI=
 task_type: 
 {
     休息: 7,
@@ -36,6 +19,19 @@ task_type:
     互动: 11
 }
 
+获取love_space_id: 
+    http://api.welove520.com/v5/useremotion/getone
+参数:
+    access_token=562949961343086-2ca7e299a09974dd0&app_key=ac5f34563a4344c4&user_id=0&sig=n7DSsDmFBjU8tWnJXINN8iN1GNo=
+返回值:
+    {
+        "result": 1,
+        "love_space_id": 844424932415867,
+        "emotion_last": 8,
+        "emotion_cur": 0,
+        "user_id": 562949961343055,
+        "set_time": 1474348805820
+    }
 
 随机拜访：
     http://api.welove520.com/v1/game/house/info
@@ -129,6 +125,7 @@ task_type:
             }
         ]
     }
+    
 称赞:
     http://api.welove520.com/v1/game/house/task
 参数:
