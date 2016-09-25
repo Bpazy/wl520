@@ -14,8 +14,9 @@ welove520 -a -c=welove.json
 ### 配置文件JSON格式
 ```
 {
-  "access_token": "562949961343086-2ca7e299a09974dd0",
-  "love_space_id": "844424932415867",
+  //access_token抓包取得
+  "access_token": "562949961343086-21275eda53f055455f",
+  "app_key": "ac5f34563a4344c4",
   "task_type": [
     1,
     4,
