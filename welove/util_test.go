@@ -1,10 +1,10 @@
 package welove
 
 import (
-	"testing"
 	"crypto/hmac"
 	"crypto/sha1"
 	"reflect"
+	"testing"
 )
 
 func TestSigEncode(t *testing.T) {

@@ -8,10 +8,10 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"regexp"
 	"strings"
-	"net/url"
 )
 
 type WeloveValue struct {
@@ -36,19 +36,19 @@ func contentHandler(path, alias *string) {
 		value := WeloveValue{accessToken, taskType, loveSpaceId, sig}
 		switch taskType {
 		case "1":
-			m[*alias + ":home"] = value
+			m[*alias+":home"] = value
 		case "4":
-			m[*alias + ":eat"] = value
+			m[*alias+":eat"] = value
 		case "5":
-			m[*alias + ":sleep"] = value
+			m[*alias+":sleep"] = value
 		case "6":
-			m[*alias + ":bath"] = value
+			m[*alias+":bath"] = value
 		case "7":
-			m[*alias + ":rest"] = value
+			m[*alias+":rest"] = value
 		case "11":
-			m[*alias + ":mua"] = value
+			m[*alias+":mua"] = value
 		default:
-			m[*alias + ":unknown, please report an issue"] = value
+			m[*alias+":unknown, please report an issue"] = value
 		}
 		encoder.Encode(m)
 	}
