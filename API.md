@@ -267,3 +267,107 @@ http://api.welove520.com/v1/game/tree/records?access_token=562949961313211-2cxxx
     "tree_id": 844424932415867
 }
 ```
+
+### 4.宠物
+```
+宠物状态:
+    http://api.welove520.com/v1/game/house/pet/task/list
+参数:
+    access_token=562949961343086-210646ecc6c6d9483e&sig=RTIJqvCeipVTZOsfhN9GWYN7%2BjA=
+返回值:
+    {
+        "result": 1,
+        "messages": [
+            {
+                "msg_type": 110,
+                "pets": [
+                    {
+                        "pet_id": 20203,
+                        "pet_tasks": [
+                            {
+                                "count": 1,
+                                "task_type": 1,
+                                "remain_time": 0 //剩余时间
+                            },
+                            {
+                                "count": 1,
+                                "task_type": 2,
+                                "remain_time": 0
+                            },
+                            {
+                                "count": 1,
+                                "task_type": 3,
+                                "remain_time": 0
+                            },
+                            {
+                                "count": 1,
+                                "task_type": 4,
+                                "remain_time": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "count": 0,
+                "msg_type": 136
+            }
+        ]
+    }
+    
+抚摸:
+    http://api.welove520.com/v1/game/house/pet/task/do
+参数:
+    access_token=562949961343086-210646ecc6c6d9483e&pet_id=20203&task_type=4&sig=G2xPwEuSqJwzx7Jn83zvQMlwlh0=
+    task_type(4抚摸 1吃饭 2喝水 3洗澡)
+返回值:
+    {
+        "result": 1,
+        "messages": [
+            {
+                "pet_id": 20203,
+                "count": 1,
+                "msg_type": 109,
+                "task_type": 4,
+                "remain_time": 304
+            },
+            {
+                "pet_id": 20203,
+                "inc_exp": 0,
+                "msg_type": 114
+            },
+            {
+                "pet_id": 20203,
+                "time": "2016-05-14 11:56:17",
+                "level": 25,
+                "msg_type": 106,
+                "name": "泡芙",
+                "thirsty_time_left": 11311,
+                "dirty_time_left": 32714,
+                "hungry_time_left": 11303,
+                "growth": 6590
+            },
+            {
+                "pet_id": 20203,
+                "msg_type": 142,
+                "tasks": [
+                    {
+                        "count": 3,
+                        "status": 0,
+                        "task_id": 1
+                    },
+                    {
+                        "count": 1,
+                        "status": 0,
+                        "task_id": 2
+                    },
+                    {
+                        "count": 2,
+                        "status": 2,
+                        "task_id": 3
+                    }
+                ]
+            }
+        ]
+    }
+```
