@@ -7,34 +7,29 @@ import (
 	"github.com/bitly/go-simplejson"
 	"io/ioutil"
 	"log"
+	"strconv"
 )
-
-type Love struct {
-	AccessToken string `json:"access_token"`
-	AppKey      string `json:"app_key"`
-	TaskType    []int  `json:"task_type"`
-}
 
 func main() {
 	isServer := flag.Bool("s", false, "启动我们的家HTTP代理")
-	path := flag.String("path", "welove.toml", "我们的家生成的配置文件路径")
+	path := flag.String("out", "welove.toml", "生成配置文件路径")
 	port := flag.String("port", ":8080", "我们的家Http代理端口号")
-	alias := flag.String("alias", "default", "我们的家生成配置文件详细配置的别名")
 	allTask := flag.Bool("a", false, "完成所有我们的家互动任务")
 	configPath := flag.String("c", "welove.json", "配置文件位置")
 	visitTimes := flag.Int("v", -1, "每日拜访次数")
-	outputPath := flag.String("o", "welove.log", "日志路径")
-	tree := flag.Bool("t", false, "是否完成爱情树任务")
+	outputPath := flag.String("log", "welove.log", "日志路径")
+	tree := flag.Bool("t", false, "完成爱情树任务")
+	pet := flag.Bool("p", false, "完成宠物任务")
 	flag.Parse()
 
 	love := initConfig(*outputPath, *configPath)
 	//是否开启代理服务器
 	if *isServer {
-		welove.ServerRun(*path, *port, *alias)
+		welove.ServerRun(*path, *port)
 	}
 	//完成互动任务
 	if *allTask {
-		doAllTask(love)
+		doAllTasks(love)
 	}
 	//拜访任务
 	if *visitTimes != -1 {
@@ -44,9 +39,13 @@ func main() {
 	if *tree {
 		doTreePost(love)
 	}
+	//宠物任务
+	if *pet {
+		doPetTasks(love)
+	}
 }
 
-func doTreePost(love Love) {
+func doTreePost(love welove.Love) {
 	op := []int{1, 2}
 	for _, v := range op {
 		res, err := welove.TreePost(love.AccessToken, love.AppKey, v)
@@ -59,7 +58,7 @@ func doTreePost(love Love) {
 		log.Printf("爱情树result: %d, Raw: %s\n", result, string(bytes))
 	}
 }
-func initConfig(outputPath, configPath string) Love {
+func initConfig(outputPath, configPath string) welove.Love {
 	//配置日志
 	output := welove.DefaultLog(outputPath)
 	log.SetOutput(&output)
@@ -69,12 +68,12 @@ func initConfig(outputPath, configPath string) Love {
 	if err != nil {
 		log.Fatal(err)
 	}
-	love := Love{}
+	love := welove.Love{}
 	json.Unmarshal(bytes, &love)
 	return love
 }
 
-func doVisit(visitTimes int, love Love) {
+func doVisit(visitTimes int, love welove.Love) {
 	for i := 0; i < visitTimes; i++ {
 		if id, ok := welove.RandomHouse(love.AccessToken); ok {
 			res, err := welove.Visit(love.AccessToken, id)
@@ -89,7 +88,7 @@ func doVisit(visitTimes int, love Love) {
 	}
 }
 
-func doAllTask(love Love) {
+func doAllTasks(love welove.Love) {
 	res, err := welove.GetLoveSpaceIdRaw(love.AccessToken, love.AppKey)
 	if err != nil {
 		log.Fatal(err)
@@ -105,5 +104,18 @@ func doAllTask(love Love) {
 		m := make(map[string]interface{})
 		json.Unmarshal(bytes, &m)
 		log.Printf("任务%d, Raw: %s\n", v, string(bytes))
+	}
+}
+
+func doPetTasks(love welove.Love) {
+	petStatus := welove.GetPetStatus(love.AccessToken)
+	log.Printf("宠物状态Raw: %+v\n", petStatus)
+	pet := petStatus.Messages[0].Pets[0]
+	for _, v := range pet.PetTasks {
+		if v.RemainTime != 0 {
+			continue
+		}
+		taskResult := welove.DoPetTask(love.AccessToken, strconv.Itoa(pet.PetID), strconv.Itoa(v.TaskType))
+		log.Printf("宠物任务%d, Raw: %+v\n", v.TaskType, taskResult)
 	}
 }

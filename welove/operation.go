@@ -8,6 +8,12 @@ import (
 	"net/url"
 	"strconv"
 	"encoding/json"
+	"github.com/elazarl/goproxy"
+	bb "bytes"
+	"strings"
+	"os"
+	"regexp"
+	"fmt"
 )
 
 func TreePost(accessToken, appKey string, op int) (*http.Response, error) {
@@ -194,4 +200,70 @@ func DoPetTask(accessToken, petId, taskType string) PetTaskResult {
 		log.Fatal(err)
 	}
 	return result
+}
+
+func ServerRun(path, port string) {
+	log.Printf("请将手机Http代理设置为[本机IP%s]\n", port)
+	go contentHandler(path)
+	proxy := goproxy.NewProxyHttpServer()
+	proxy.Verbose = false
+	proxy.OnRequest().DoFunc(httpHandler)
+	log.Fatal(http.ListenAndServe(port, proxy))
+}
+
+var sChan = make(chan string)
+
+type Love struct {
+	AccessToken string `json:"access_token"`
+	AppKey      string `json:"app_key"`
+	TaskType    []int  `json:"task_type"`
+}
+
+func contentHandler(path string) {
+	var f, _ = os.OpenFile(path, os.O_CREATE | os.O_RDWR, os.ModeAppend)
+	defer f.Close()
+	for v := range sChan {
+		accessToken, _ := getValue(v, "access_token")
+		love := Love{}
+		love.AccessToken = accessToken
+		love.AppKey = "ac5f34563a4344c4"
+		love.TaskType = []int{1, 4, 5, 6, 7, 11}
+		bytes, _ := json.Marshal(love)
+		f.Write(bytes)
+		fmt.Println("生成配置文件完毕：" + path)
+		os.Exit(0)
+	}
+}
+
+func getValue(content, key string) (string, error) {
+	r := "(?:" + key + ")=(.+?)(&|$)"
+	reg, err := regexp.Compile(r)
+	return reg.FindAllStringSubmatch(content, -1)[0][1], err
+}
+
+func httpHandler(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
+	if r.Method != "POST" {
+		return r, nil
+	}
+	if r.Host != "api.welove520.com" {
+		return r, nil
+	}
+	buf, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	ori := ioutil.NopCloser(bb.NewBuffer(buf))
+	r.Body = ori
+	bytesString := bb.Buffer{}
+	bytesString.Write(buf)
+	content := bytesString.String()
+	if strings.Contains(content, "access_token") {
+		dContent, err := url.QueryUnescape(content)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("Decode [%s] to [%s]\n", content, dContent)
+		sChan <- dContent
+	}
+	return r, nil
 }

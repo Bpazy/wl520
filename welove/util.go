@@ -32,7 +32,7 @@ func (c *CustomOutput) Write(p []byte) (int, error) {
 }
 
 func DefaultLog(path string) CustomOutput {
-	var file, _ = os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_RDWR, os.ModeAppend)
+	var file, _ = os.OpenFile(path, os.O_APPEND | os.O_CREATE | os.O_RDWR, os.ModeAppend)
 	return New(os.Stdout, file)
 }
 
@@ -53,7 +53,7 @@ func (l *Sig) Encode(method, u string, data ...Data) string {
 	for _, v := range data {
 		content = content + v.key + "=" + v.value + "&"
 	}
-	content = content[0 : len(content)-1]
+	content = content[0 : len(content) - 1]
 	l.myMac.Write([]byte(method + "&" + url.QueryEscape(u) + "&" + url.QueryEscape(content)))
 	return base64.StdEncoding.EncodeToString(l.myMac.Sum(nil))
 }
