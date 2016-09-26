@@ -12,7 +12,7 @@ import (
 
 func main() {
 	isServer := flag.Bool("s", false, "启动我们的家HTTP代理")
-	path := flag.String("out", "welove.toml", "生成配置文件路径")
+	path := flag.String("out", "welove.json", "生成的配置文件路径")
 	port := flag.String("port", ":8080", "我们的家Http代理端口号")
 	allTask := flag.Bool("a", false, "完成所有我们的家互动任务")
 	configPath := flag.String("c", "welove.json", "配置文件位置")
@@ -22,11 +22,12 @@ func main() {
 	pet := flag.Bool("p", false, "完成宠物任务")
 	flag.Parse()
 
-	love := initConfig(*outputPath, *configPath)
 	//是否开启代理服务器
 	if *isServer {
 		welove.ServerRun(*path, *port)
 	}
+
+	love := initConfig(*outputPath, *configPath)
 	//完成互动任务
 	if *allTask {
 		doAllTasks(love)

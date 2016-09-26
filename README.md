@@ -11,7 +11,7 @@ go get github.com/Bpazy/welove520
 1. 生成配置文件 
     welove520  -s -out welove.json
 2. 根据配置文件完成任务 
-    welove520 -a -c=welove.json
+    welove520 -a -c welove.json
 ```
 
 ### 配置文件JSON格式
@@ -40,7 +40,7 @@ Usage of welove520:
   -log string
         日志路径 (default "welove.log")
   -out string
-        生成配置文件路径 (default "welove.toml")
+        生成的配置文件路径 (default "welove.json")
   -p    完成宠物任务
   -port string
         我们的家Http代理端口号 (default ":8080")
