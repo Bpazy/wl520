@@ -8,13 +8,16 @@ go get github.com/Bpazy/welove520
 
 ### 示例
 ```
-welove520 -a -c=welove.json
+1. 生成配置文件 
+    welove520  -s -out welove.json
+2. 根据配置文件完成任务 
+    welove520 -a -c=welove.json
 ```
 
 ### 配置文件JSON格式
 ```
+可以通过 welove520  -s -out welove.json 命令生成配置文件
 {
-  //access_token抓包取得
   "access_token": "562949961343086-21275eda53f055455f",
   "app_key": "ac5f34563a4344c4",
   "task_type": [
@@ -32,18 +35,17 @@ welove520 -a -c=welove.json
 ```
 Usage of welove520:
   -a    完成所有我们的家互动任务
-  -alias string
-        我们的家生成配置文件详细配置的别名 (default "default")
   -c string
         配置文件位置 (default "welove.json")
-  -o string
+  -log string
         日志路径 (default "welove.log")
-  -path string
-        我们的家生成的配置文件路径 (default "welove.toml")
+  -out string
+        生成配置文件路径 (default "welove.toml")
+  -p    完成宠物任务
   -port string
         我们的家Http代理端口号 (default ":8080")
   -s    启动我们的家HTTP代理
-  -t    是否完成爱情树任务
+  -t    完成爱情树任务
   -v int
         每日拜访次数 (default -1)
 ```
