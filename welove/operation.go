@@ -1,19 +1,19 @@
 package welove
 
 import (
+	bb "bytes"
+	"encoding/json"
+	"fmt"
 	"github.com/bitly/go-simplejson"
+	"github.com/elazarl/goproxy"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
-	"strconv"
-	"encoding/json"
-	"github.com/elazarl/goproxy"
-	bb "bytes"
-	"strings"
 	"os"
 	"regexp"
-	"fmt"
+	"strconv"
+	"strings"
 )
 
 func TreePost(accessToken, appKey string, op int) (*http.Response, error) {
@@ -135,7 +135,7 @@ type PetStatus struct {
 				RemainTime int `json:"remain_time"`
 			} `json:"pet_tasks"`
 		} `json:"pets,omitempty"`
-		Count   int `json:"count,omitempty"`
+		Count int `json:"count,omitempty"`
 	} `json:"messages"`
 }
 
@@ -170,7 +170,7 @@ type PetTaskResult struct {
 		RemainTime int `json:"remain_time"`
 		TaskType   int `json:"task_type"`
 	} `json:"messages"`
-	Result   int `json:"result"`
+	Result   int    `json:"result"`
 	ErrorMsg string `json:"error_msg"`
 }
 
@@ -220,7 +220,7 @@ type Love struct {
 }
 
 func contentHandler(path string) {
-	var f, _ = os.OpenFile(path, os.O_CREATE | os.O_RDWR, os.ModeAppend)
+	var f, _ = os.OpenFile(path, os.O_CREATE|os.O_RDWR, os.ModeAppend)
 	defer f.Close()
 	for v := range sChan {
 		accessToken, _ := getValue(v, "access_token")
