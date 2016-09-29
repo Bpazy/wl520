@@ -135,7 +135,7 @@ type PetStatus struct {
 				RemainTime int `json:"remain_time"`
 			} `json:"pet_tasks"`
 		} `json:"pets,omitempty"`
-		Count int `json:"count,omitempty"`
+		Count   int `json:"count,omitempty"`
 	} `json:"messages"`
 }
 
@@ -220,13 +220,14 @@ type Love struct {
 }
 
 func contentHandler(path string) {
-	var f, _ = os.OpenFile(path, os.O_CREATE|os.O_RDWR, os.ModeAppend)
+	var f, _ = os.OpenFile(path, os.O_CREATE | os.O_RDWR, os.ModeAppend)
 	defer f.Close()
 	for v := range sChan {
 		accessToken, _ := getValue(v, "access_token")
+		appKey, _ := getValue(v, "app_key")
 		love := Love{}
 		love.AccessToken = accessToken
-		love.AppKey = "ac5f34563a4344c4"
+		love.AppKey = appKey
 		love.TaskType = []int{1, 4, 5, 6, 7, 11}
 		bytes, _ := json.Marshal(love)
 		f.Write(bytes)
@@ -257,7 +258,7 @@ func httpHandler(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.R
 	bytesString := bb.Buffer{}
 	bytesString.Write(buf)
 	content := bytesString.String()
-	if strings.Contains(content, "access_token") {
+	if strings.Contains(content, "access_token") && strings.Contains(content, "app_key") {
 		dContent, err := url.QueryUnescape(content)
 		if err != nil {
 			log.Fatal(err)
