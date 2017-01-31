@@ -35,8 +35,12 @@ go get github.com/Bpazy/welove520
 ```
 Usage of welove520:
   -a    完成所有我们的家互动任务
+  -buy int
+        农场购买物品ID
   -c string
         配置文件位置 (default "welove.json")
+  -coin int
+        农场被购买物品ID的价格上限(闭区间) (default -1)
   -log string
         日志路径 (default "welove.log")
   -out string
