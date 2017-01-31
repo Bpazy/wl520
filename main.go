@@ -20,6 +20,8 @@ func main() {
 	outputPath := flag.String("log", "welove.log", "日志路径")
 	tree := flag.Bool("t", false, "完成爱情树任务")
 	pet := flag.Bool("p", false, "完成宠物任务")
+	buyItemId := flag.Int("buy", 0, "农场购买物品ID")
+	coin := flag.Int("coin", -1, "农场被购买物品ID的价格上限(闭区间)")
 	flag.Parse()
 
 	//是否开启代理服务器
@@ -27,7 +29,13 @@ func main() {
 		welove.ServerRun(*path, *port)
 	}
 
+	//读取配置文件
 	love := initConfig(*outputPath, *configPath)
+
+	//购买指定物品
+	if *buyItemId != 0 {
+		buyItem(love, *buyItemId, *coin)
+	}
 	//完成互动任务
 	if *allTask {
 		doAllTasks(love)
@@ -43,6 +51,16 @@ func main() {
 	//宠物任务
 	if *pet {
 		doPetTasks(love)
+	}
+}
+
+func buyItem(love welove.Love, itemId, coin int) {
+	items := welove.QueryItems(love.AccessToken).Messages[0].AdItems
+	for _, v := range items {
+		if v.ItemID == itemId && v.Coin <= coin {
+			status := welove.BuyItem(love.AccessToken, v.SellerFarmID, v.ID)
+			log.Printf("农场购买result: %d, Raw: %+v\n", status.Result, status)
+		}
 	}
 }
 

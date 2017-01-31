@@ -16,9 +16,11 @@ import (
 	"strings"
 )
 
+const KEY = "8b5b6eca8a9d1d1f"
+
 func TreePost(accessToken, appKey string, op int) (*http.Response, error) {
 	u := "http://api.welove520.com/v1/game/tree/op"
-	sigEncoder := NewSig([]byte("8b5b6eca8a9d1d1f"))
+	sigEncoder := NewSig([]byte(KEY))
 	d1 := Data{"access_token", accessToken}
 	d2 := Data{"app_key", appKey}
 	d3 := Data{"op", strconv.Itoa(op)}
@@ -35,7 +37,7 @@ func TreePost(accessToken, appKey string, op int) (*http.Response, error) {
 
 func HomePost(accessToken string, taskType int, loveSpaceId string) (*http.Response, error) {
 	u := "http://api.welove520.com/v1/game/house/task"
-	sigEncoder := NewSig([]byte("8b5b6eca8a9d1d1f"))
+	sigEncoder := NewSig([]byte(KEY))
 	d1 := Data{"access_token", accessToken}
 	d2 := Data{"love_space_id", loveSpaceId}
 	d3 := Data{"task_type", strconv.Itoa(taskType)}
@@ -52,7 +54,7 @@ func HomePost(accessToken string, taskType int, loveSpaceId string) (*http.Respo
 
 func RandomHouse(accessToken string) (string, bool) {
 	var u = "http://api.welove520.com/v1/game/house/info"
-	sigEncoder := NewSig([]byte("8b5b6eca8a9d1d1f"))
+	sigEncoder := NewSig([]byte(KEY))
 	d1 := Data{"access_token", accessToken}
 	d2 := Data{"love_space_id", "random"}
 	sig := sigEncoder.Encode("POST", u, d1, d2)
@@ -87,7 +89,7 @@ func Visit(accessToken, loveSpaceId string) (*http.Response, error) {
 	d2 := Data{"house_num", "0"}
 	d3 := Data{"access_token", accessToken}
 	d4 := Data{"love_space_id", loveSpaceId}
-	sigEncoder := NewSig([]byte("8b5b6eca8a9d1d1f"))
+	sigEncoder := NewSig([]byte(KEY))
 	sig := sigEncoder.Encode("POST", u, d3, d2, d4, d1)
 
 	values := make(url.Values)
@@ -100,12 +102,96 @@ func Visit(accessToken, loveSpaceId string) (*http.Response, error) {
 	return res, err
 }
 
+type QueryItem struct {
+	Result   int `json:"result"`
+	Messages []struct {
+		OpTime  int64 `json:"op_time"`
+		MsgType int `json:"msg_type"`
+		AdItems []struct {
+			ItemID        int `json:"item_id"`
+			Count         int `json:"count"`
+			OpTime        int64 `json:"op_time"`
+			NeedHelp      int `json:"need_help"`
+			SellerFarmID  string `json:"seller_farm_id"`
+			HeadURLFamale string `json:"head_url_famale"`
+			HeadURLMale   string `json:"head_url_male"`
+			ID            int `json:"id"`
+			FarmName      string `json:"farm_name"`
+			Coin          int `json:"coin"`
+		} `json:"ad_items"`
+	} `json:"messages"`
+}
+
+func QueryItems(accessToken string) QueryItem {
+	u := "http://api.welove520.com/v1/game/farm/ad/query"
+	d1 := Data{"access_token", accessToken}
+	sigEncoder := NewSig([]byte(KEY))
+	sig := sigEncoder.Encode("POST", u, d1)
+	data := make(url.Values)
+	data.Add("access_token", accessToken)
+	data.Add("sig", sig)
+	res, err := http.PostForm(u, data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	bytes, _ := ioutil.ReadAll(res.Body)
+	queryItem := QueryItem{}
+	json.Unmarshal(bytes, &queryItem)
+	return queryItem
+}
+
+type BuyItemStatus struct {
+	Result   int `json:"result"`
+	Messages []struct {
+		StallItem  struct {
+				   BuyerHeadURL  string `json:"buyer_head_url"`
+				   BuyerFarmName string `json:"buyer_farm_name"`
+				   ID            int `json:"id"`
+			   } `json:"stall_item,omitempty"`
+		OpTime     int64 `json:"op_time"`
+		MsgType    int `json:"msg_type"`
+		Warehouses []struct {
+			Category int `json:"category"`
+			ItemsInc []struct {
+				ItemID int `json:"item_id"`
+				Count  int `json:"count"`
+			} `json:"items_inc"`
+		} `json:"warehouses,omitempty"`
+		FarmID     string `json:"farm_id,omitempty"`
+		GoldCost   int `json:"gold_cost,omitempty"`
+	} `json:"messages"`
+}
+
+func BuyItem(accessToken, sellerFarmId string, stallSaleId int) BuyItemStatus {
+	u := "http://api.welove520.com/v1/game/farm/stall/buy"
+	d1 := Data{"access_token", accessToken}
+	d2 := Data{"seller_farm_id", sellerFarmId}
+	d3 := Data{"stall_sale_id", strconv.Itoa(stallSaleId)}
+	sigEncoder := NewSig([]byte(KEY))
+	sig := sigEncoder.Encode("POST", u, d1, d2, d3)
+
+	data := make(url.Values)
+	data.Add("access_token", accessToken)
+	data.Add("seller_farm_id", sellerFarmId)
+	data.Add("stall_sale_id", strconv.Itoa(stallSaleId))
+	data.Add("sig", sig)
+	res, err := http.PostForm(u, data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer res.Body.Close()
+	bytes, _ := ioutil.ReadAll(res.Body)
+	buyItemStatus := BuyItemStatus{}
+	json.Unmarshal(bytes, &buyItemStatus)
+	return buyItemStatus
+}
+
 func GetLoveSpaceIdRaw(accessToken, appKey string) (*http.Response, error) {
 	u := "http://api.welove520.com/v5/useremotion/getone"
 	d1 := Data{"access_token", accessToken}
 	d2 := Data{"app_key", appKey}
 	d3 := Data{"user_id", "0"}
-	sigEncoder := NewSig([]byte("8b5b6eca8a9d1d1f"))
+	sigEncoder := NewSig([]byte(KEY))
 	sig := sigEncoder.Encode("POST", u, d1, d2, d3)
 
 	data := make(url.Values)
@@ -141,7 +227,7 @@ type PetStatus struct {
 
 func GetPetStatus(accessToken string) PetStatus {
 	u := "http://api.welove520.com/v1/game/house/pet/task/list"
-	sigEncoder := NewSig([]byte("8b5b6eca8a9d1d1f"))
+	sigEncoder := NewSig([]byte(KEY))
 	d1 := Data{"access_token", accessToken}
 	sig := sigEncoder.Encode("POST", u, d1)
 
@@ -176,7 +262,7 @@ type PetTaskResult struct {
 
 func DoPetTask(accessToken, petId, taskType string) PetTaskResult {
 	u := "http://api.welove520.com/v1/game/house/pet/task/do"
-	sigEncoder := NewSig([]byte("8b5b6eca8a9d1d1f"))
+	sigEncoder := NewSig([]byte(KEY))
 	d1 := Data{"access_token", accessToken}
 	d2 := Data{"pet_id", petId}
 	d3 := Data{"task_type", taskType}
