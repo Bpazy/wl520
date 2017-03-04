@@ -1028,4 +1028,28 @@ http://api.welove520.com/v1/game/tree/records?access_token=562949961313211-2cxxx
             }
         ]
     }
+
+农场签到:
+    http://api.welove520.com/v1/game/farm/signin
+参数:
+    access_token=562949961343086-21410ab7bf7c154d0d&sig=kUpY6Eq9nHISNmrPctgeazoPib4%3D
+返回值:
+    {
+        "result": 1,
+        "messages": [
+            {
+                "lover_records": [
+                    {
+                        "date": "2017-03-04",
+                        "lasting_days": 0,
+                        "invalid": 0,
+                        "complete": 0
+                    }
+                ],
+                "today": "2017-03-04",
+                "msg_type": 119,
+                "lover_lasting_days": 0
+            }
+        ]
+    }
 ```
