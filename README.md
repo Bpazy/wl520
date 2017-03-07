@@ -3,7 +3,7 @@
 
 ### 下载并使用
 ```
-go get github.com/Bpazy/welove520
+go get -u github.com/Bpazy/welove520
 ```
 
 ### 示例
