@@ -22,39 +22,37 @@ func main() {
 	pet := flag.Bool("p", false, "完成宠物任务")
 	buyItemId := flag.Int("buy", 0, "农场购买物品ID")
 	coin := flag.Int("coin", -1, "农场被购买物品ID的价格上限(闭区间)")
+	doFarmSign := flag.Bool("farm-sign", false, "携带本参数表示农场签到")
 	flag.Parse()
 
-	//是否开启代理服务器
-	if *isServer {
-		welove.ServerRun(*path, *port)
-	}
+	welove.ServerRun(*path, *port, *isServer)      //是否开启代理服务器
+	love := initConfig(*outputPath, *configPath)   //读取配置文件
 
-	//读取配置文件
-	love := initConfig(*outputPath, *configPath)
-
-	//购买指定物品
-	if *buyItemId != 0 {
-		buyItem(love, *buyItemId, *coin)
-	}
-	//完成互动任务
-	if *allTask {
-		doAllTasks(love)
-	}
-	//拜访任务
-	if *visitTimes != -1 {
-		doVisit(*visitTimes, love)
-	}
-	//爱情树任务
-	if *tree {
-		doTreePost(love)
-	}
-	//宠物任务
-	if *pet {
-		doPetTasks(love)
-	}
+	buyItem(love, *buyItemId, *coin, *buyItemId)   //购买指定物品
+	doAllTasks(love, *allTask)                     //完成互动任务
+	doVisit(*visitTimes, love)                     //拜访任务
+	doTreePost(love, *tree)                        //爱情树任务
+	doPetTasks(love, *pet)                         //宠物任务
+	farmSign(love, *doFarmSign)                    //农场签到
 }
 
-func buyItem(love welove.Love, itemId, coin int) {
+func farmSign(love welove.Love, do bool) {
+	if !do {
+		return
+	}
+	res, err := welove.FarmSign(love.AccessToken)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer res.Body.Close()
+	bytes, _ := ioutil.ReadAll(res.Body)
+	log.Printf("农场签到: %s\n", string(bytes))
+}
+
+func buyItem(love welove.Love, itemId, coin, buyItemId int) {
+	if buyItemId == 0 {
+		return
+	}
 	items := welove.QueryItems(love.AccessToken).Messages[0].AdItems
 	for _, v := range items {
 		if v.ItemID == itemId && v.Coin <= coin {
@@ -64,7 +62,10 @@ func buyItem(love welove.Love, itemId, coin int) {
 	}
 }
 
-func doTreePost(love welove.Love) {
+func doTreePost(love welove.Love, tree bool) {
+	if !tree {
+		return
+	}
 	op := []int{1, 2}
 	for _, v := range op {
 		res, err := welove.TreePost(love.AccessToken, love.AppKey, v)
@@ -93,6 +94,9 @@ func initConfig(outputPath, configPath string) welove.Love {
 }
 
 func doVisit(visitTimes int, love welove.Love) {
+	if visitTimes == -1 {
+		return
+	}
 	for i := 0; i < visitTimes; i++ {
 		if id, ok := welove.RandomHouse(love.AccessToken); ok {
 			res, err := welove.Visit(love.AccessToken, id)
@@ -107,7 +111,10 @@ func doVisit(visitTimes int, love welove.Love) {
 	}
 }
 
-func doAllTasks(love welove.Love) {
+func doAllTasks(love welove.Love, allTask bool) {
+	if !allTask {
+		return
+	}
 	res, err := welove.GetLoveSpaceIdRaw(love.AccessToken, love.AppKey)
 	if err != nil {
 		log.Fatal(err)
@@ -126,7 +133,10 @@ func doAllTasks(love welove.Love) {
 	}
 }
 
-func doPetTasks(love welove.Love) {
+func doPetTasks(love welove.Love, doPet bool) {
+	if !doPet {
+		return
+	}
 	petStatus := welove.GetPetStatus(love.AccessToken)
 	log.Printf("宠物状态Raw: %+v\n", petStatus)
 	pet := petStatus.Messages[0].Pets[0]
