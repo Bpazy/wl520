@@ -52,6 +52,8 @@ Usage of welove520:
   -t    完成爱情树任务
   -v int
         每日拜访次数 (default -1)
+  -farm-sign
+        农场签到
 ```
 
 微爱API接口 [点击此处](https://github.com/Bpazy/welove520/blob/master/API.md)
