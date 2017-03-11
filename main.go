@@ -22,7 +22,7 @@ func main() {
 	pet := flag.Bool("p", false, "完成宠物任务")
 	buyItemId := flag.Int("buy", 0, "农场购买物品ID")
 	coin := flag.Int("coin", -1, "农场被购买物品ID的价格上限(闭区间)")
-	doFarmSign := flag.Bool("farm-sign", false, "携带本参数表示农场签到")
+	doFarmSign := flag.Bool("farm-sign", false, "农场签到")
 	flag.Parse()
 
 	welove.ServerRun(*path, *port, *isServer)         //是否开启代理服务器
