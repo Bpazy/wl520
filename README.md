@@ -5,6 +5,7 @@
 ```
 go get -u github.com/Bpazy/welove520
 ```
+或前往[Release](https://github.com/Bpazy/welove520/releases)下载适合您系统的版本。
 
 ### 示例
 ```
