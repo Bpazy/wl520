@@ -9,6 +9,7 @@ import (
 	"log"
 	"strconv"
 	"sync"
+	"reflect"
 )
 
 var w sync.WaitGroup
@@ -47,8 +48,16 @@ func pri(s string) {
 	log.Println(s)
 }
 
-func test(f interface{}, p ...interface{}) {
-	f.(func(...interface{}))(p)
+func test(f interface{}, args ...interface{}) {
+	v := reflect.ValueOf(f)
+	log.Println(v)
+	if len(args) > 1 {
+		f.(func(...interface{}))(args)
+	} else if len(args) == 1 {
+		f.(func(interface{}))(args[0])
+	} else {
+		f.(func())()
+	}
 }
 
 func farmSign(love welove.Love, do bool) {
