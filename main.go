@@ -8,8 +8,10 @@ import (
 	"io/ioutil"
 	"log"
 	"strconv"
+	"sync"
 )
 
+var w sync.WaitGroup
 func main() {
 	isServer := flag.Bool("s", false, "启动我们的家HTTP代理")
 	path := flag.String("out", "welove.json", "生成的配置文件路径")
@@ -25,20 +27,23 @@ func main() {
 	doFarmSign := flag.Bool("farm-sign", false, "农场签到")
 	flag.Parse()
 
-	log.Println("welove520 start.")
 	welove.ServerRun(*path, *port, *isServer)         //是否开启代理服务器
 	love := initConfig(*outputPath, *configPath)      //读取配置文件
 
-	buyItem(love, *buyItemId, *coin, *buyItemId)   //购买指定物品
-	doAllTasks(love, *allTask)                     //完成互动任务
-	doVisit(*visitTimes, love)                     //拜访任务
-	doTreePost(love, *tree)                        //爱情树任务
-	doPetTasks(love, *pet)                         //宠物任务
-	farmSign(love, *doFarmSign)                    //农场签到
+	log.Println("welove520 start.")
+	w.Add(6)
+	go buyItem(love, *buyItemId, *coin, *buyItemId)   //购买指定物品
+	go doAllTasks(love, *allTask)                     //完成互动任务
+	go doVisit(*visitTimes, love)                     //拜访任务
+	go doTreePost(love, *tree)                        //爱情树任务
+	go doPetTasks(love, *pet)                         //宠物任务
+	go farmSign(love, *doFarmSign)                    //农场签到
+	w.Wait()
 	log.Println("welove520 end.")
 }
 
 func farmSign(love welove.Love, do bool) {
+	defer w.Done()
 	if !do {
 		return
 	}
@@ -52,6 +57,7 @@ func farmSign(love welove.Love, do bool) {
 }
 
 func buyItem(love welove.Love, itemId, coin, buyItemId int) {
+	defer w.Done()
 	if buyItemId == 0 {
 		return
 	}
@@ -65,6 +71,7 @@ func buyItem(love welove.Love, itemId, coin, buyItemId int) {
 }
 
 func doTreePost(love welove.Love, tree bool) {
+	defer w.Done()
 	if !tree {
 		return
 	}
@@ -96,6 +103,7 @@ func initConfig(outputPath, configPath string) welove.Love {
 }
 
 func doVisit(visitTimes int, love welove.Love) {
+	defer w.Done()
 	if visitTimes == -1 {
 		return
 	}
@@ -114,6 +122,7 @@ func doVisit(visitTimes int, love welove.Love) {
 }
 
 func doAllTasks(love welove.Love, allTask bool) {
+	defer w.Done()
 	if !allTask {
 		return
 	}
@@ -136,6 +145,7 @@ func doAllTasks(love welove.Love, allTask bool) {
 }
 
 func doPetTasks(love welove.Love, doPet bool) {
+	defer w.Done()
 	if !doPet {
 		return
 	}
