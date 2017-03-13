@@ -28,12 +28,12 @@ func main() {
 	welove.ServerRun(*path, *port, *isServer)         //是否开启代理服务器
 	love := initConfig(*outputPath, *configPath)      //读取配置文件
 
-	go buyItem(love, *buyItemId, *coin, *buyItemId)   //购买指定物品
-	go doAllTasks(love, *allTask)                     //完成互动任务
-	go doVisit(*visitTimes, love)                     //拜访任务
-	go doTreePost(love, *tree)                        //爱情树任务
-	go doPetTasks(love, *pet)                         //宠物任务
-	go farmSign(love, *doFarmSign)                    //农场签到
+	buyItem(love, *buyItemId, *coin, *buyItemId)   //购买指定物品
+	doAllTasks(love, *allTask)                     //完成互动任务
+	doVisit(*visitTimes, love)                     //拜访任务
+	doTreePost(love, *tree)                        //爱情树任务
+	doPetTasks(love, *pet)                         //宠物任务
+	farmSign(love, *doFarmSign)                    //农场签到
 }
 
 func farmSign(love welove.Love, do bool) {
