@@ -40,6 +40,15 @@ func main() {
 	go farmSign(love, *doFarmSign)                    //农场签到
 	w.Wait()
 	log.Println("welove520 end.")
+	test(pri, 123)
+}
+
+func pri(s string) {
+	log.Println(s)
+}
+
+func test(f interface{}, p ...interface{}) {
+	f.(func(...interface{}))(p)
 }
 
 func farmSign(love welove.Love, do bool) {
