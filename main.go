@@ -13,6 +13,7 @@ import (
 )
 
 var w sync.WaitGroup
+
 func main() {
 	isServer := flag.Bool("s", false, "启动我们的家HTTP代理")
 	path := flag.String("out", "welove.json", "生成的配置文件路径")
@@ -28,36 +29,28 @@ func main() {
 	doFarmSign := flag.Bool("farm-sign", false, "农场签到")
 	flag.Parse()
 
-	welove.ServerRun(*path, *port, *isServer)         //是否开启代理服务器
-	love := initConfig(*outputPath, *configPath)      //读取配置文件
+	welove.ServerRun(*path, *port, *isServer)    //是否开启代理服务器
+	love := initConfig(*outputPath, *configPath) //读取配置文件
 
 	log.Println("welove520 start.")
-	w.Add(6)
-	go buyItem(love, *buyItemId, *coin, *buyItemId)   //购买指定物品
-	go doAllTasks(love, *allTask)                     //完成互动任务
-	go doVisit(*visitTimes, love)                     //拜访任务
-	go doTreePost(love, *tree)                        //爱情树任务
-	go doPetTasks(love, *pet)                         //宠物任务
-	go farmSign(love, *doFarmSign)                    //农场签到
+	goFunc(buyItem, love, *buyItemId, *coin, *buyItemId) //购买指定物品
+	goFunc(doAllTasks, love, *allTask)                   //完成互动任务
+	goFunc(doVisit, *visitTimes, love)                   //拜访任务
+	goFunc(doTreePost, love, *tree)                      //爱情树任务
+	goFunc(doPetTasks, love, *pet)                       //宠物任务
+	goFunc(farmSign, love, *doFarmSign)                  //农场签到
 	w.Wait()
 	log.Println("welove520 end.")
-	test(pri, 123)
 }
 
-func pri(s string) {
-	log.Println(s)
-}
-
-func test(f interface{}, args ...interface{}) {
+func goFunc(f interface{}, args ...interface{}) {
 	v := reflect.ValueOf(f)
-	log.Println(v)
-	if len(args) > 1 {
-		f.(func(...interface{}))(args)
-	} else if len(args) == 1 {
-		f.(func(interface{}))(args[0])
-	} else {
-		f.(func())()
+	var a []reflect.Value
+	for _, v := range args {
+		a = append(a, reflect.ValueOf(v))
 	}
+	w.Add(1)
+	go v.Call(a)
 }
 
 func farmSign(love welove.Love, do bool) {
