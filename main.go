@@ -25,6 +25,7 @@ func main() {
 	doFarmSign := flag.Bool("farm-sign", false, "农场签到")
 	flag.Parse()
 
+	log.Println("welove520 start.")
 	welove.ServerRun(*path, *port, *isServer)         //是否开启代理服务器
 	love := initConfig(*outputPath, *configPath)      //读取配置文件
 
@@ -34,6 +35,7 @@ func main() {
 	doTreePost(love, *tree)                        //爱情树任务
 	doPetTasks(love, *pet)                         //宠物任务
 	farmSign(love, *doFarmSign)                    //农场签到
+	log.Println("welove520 end.")
 }
 
 func farmSign(love welove.Love, do bool) {
