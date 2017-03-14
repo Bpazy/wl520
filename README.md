@@ -57,8 +57,7 @@ Usage of welove520:
         农场签到
 ```
 
-
-添加定时任务
+### 添加定时任务
 ```
 #每30分钟检测完成我们的家所有任务和宠物任务
 */30 * * * * /usr/bin/welove520 -c /etc/welove.json -log /home/han/welove/welove_han.log -a -p
