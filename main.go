@@ -10,6 +10,8 @@ import (
 	"strconv"
 	"sync"
 	"reflect"
+	"os"
+	"io"
 )
 
 var w sync.WaitGroup
@@ -99,11 +101,12 @@ func doTreePost(love welove.Love, tree bool) {
 	}
 }
 func initConfig(outputPath, configPath string) welove.Love {
-	//配置日志
-	output := welove.DefaultLog(outputPath)
-	log.SetOutput(&output)
+	setLogFile(outputPath)
+	return readConfig(configPath)
+}
 
-	//读取配置文件
+//读取配置文件
+func readConfig(configPath string) welove.Love {
 	bytes, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		log.Fatal(err)
@@ -111,6 +114,15 @@ func initConfig(outputPath, configPath string) welove.Love {
 	love := welove.Love{}
 	json.Unmarshal(bytes, &love)
 	return love
+}
+
+//配置日志
+func setLogFile(outputPath string) {
+	var file, err = os.OpenFile(outputPath, os.O_APPEND|os.O_CREATE|os.O_RDWR, os.ModeAppend)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.SetOutput(io.MultiWriter(os.Stdout, file))
 }
 
 func doVisit(visitTimes int, love welove.Love) {
