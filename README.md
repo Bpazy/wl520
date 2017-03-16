@@ -1,4 +1,4 @@
-微爱GoGoGo [![Build Status](https://travis-ci.org/Bpazy/welove520.svg?branch=master)](https://travis-ci.org/Bpazy/welove520)
+微爱GoGoGo [![Build Status](https://travis-ci.org/Bpazy/welove520.svg?branch=master)](https://travis-ci.org/Bpazy/welove520) [![Gitter](http://badges.gitter.im/JoinChat.svg)](https://gitter.im/welove520/Lobby)
 =============
 
 ### 下载并使用 [API接口](https://github.com/Bpazy/welove520/blob/master/API.md)
