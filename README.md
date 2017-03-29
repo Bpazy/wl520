@@ -65,3 +65,8 @@ Usage of welove520:
 #每天凌晨1点和下午13点(两次是为了防止请求失败)检测并完成爱情树任务, 拜访20次任务, 农场签到任务
 0 1,13 * * * /usr/bin/welove520 -c /etc/welove.json -log /home/han/welove/welove_han.log -t -v=20 -farm-sign
 ```
+
+捐赠本项目             | 　
+:-------------------------:|:-------------------------:
+<img src="https://cloud.githubusercontent.com/assets/9838749/24434697/c7d99414-1463-11e7-8931-1d88731fc1c5.png">  |  <img src="https://cloud.githubusercontent.com/assets/9838749/24434701/cbac6b84-1463-11e7-8839-7eae8cb42365.png">
+
