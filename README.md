@@ -20,15 +20,7 @@ go get -u github.com/Bpazy/welove520
 可以通过 welove520  -s -out welove.json 命令生成配置文件
 {
   "access_token": "562949961343086-21275eda53f055455f",
-  "app_key": "ac5f34563a4344c4",
-  "task_type": [
-    1,
-    4,
-    5,
-    6,
-    7,
-    11
-  ]
+  "app_key": "ac5f34563a4344c4"
 }
 ```
 

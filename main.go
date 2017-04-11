@@ -5,13 +5,13 @@ import (
 	"flag"
 	"github.com/Bpazy/welove520/welove"
 	"github.com/bitly/go-simplejson"
+	"io"
 	"io/ioutil"
 	"log"
+	"os"
+	"reflect"
 	"strconv"
 	"sync"
-	"reflect"
-	"os"
-	"io"
 )
 
 var w sync.WaitGroup
@@ -100,6 +100,7 @@ func doTreePost(love welove.Love, tree bool) {
 		log.Printf("爱情树result: %d, Raw: %s\n", result, string(bytes))
 	}
 }
+
 func initConfig(outputPath, configPath string) welove.Love {
 	setLogFile(outputPath)
 	return readConfig(configPath)
@@ -155,10 +156,11 @@ func doAllTasks(love welove.Love, allTask bool) {
 	}
 	bytes, _ := ioutil.ReadAll(res.Body)
 	loveSpaceId := welove.GetLoveSpaceId(string(bytes))
-	for _, v := range love.TaskType {
+	taskTypes := []int{1, 4, 5, 6, 7, 11}
+	for _, v := range taskTypes {
 		res, err := welove.HomePost(love.AccessToken, v, loveSpaceId)
 		if err != nil {
-			log.Printf("任务%d错误\n", love.TaskType)
+			log.Printf("任务%d错误\n", v)
 		}
 		bytes, _ := ioutil.ReadAll(res.Body)
 		m := make(map[string]interface{})
