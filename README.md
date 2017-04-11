@@ -58,10 +58,10 @@ Usage of welove520:
 #每天凌晨1点和下午13点(两次是为了防止请求失败)检测并完成爱情树任务, 拜访20次任务, 农场签到任务
 0 1,13 * * * /usr/bin/welove520 -c /etc/welove.json -log /home/han/welove/welove_han.log -t -v=20 -farm-sign
 ```
-2\. 或者使用本项目提供的`wl520cron`:
-&emsp;2.1 获取`wl520cron`: `go get github.com/Bpazy/welove520/wl520cron`;
-&emsp;2.2 设置`wl520cron`的配置文件`wl520cron.json`;
-&emsp;2.3 运行`wl520cron`, `welove520`必须在`PATH`下。
+2\. 或者使用本项目提供的`wl520cron`:    
+&emsp;2.1 获取`wl520cron`: `go get github.com/Bpazy/welove520/wl520cron`;    
+&emsp;2.2 设置`wl520cron`的配置文件`wl520cron.json`;    
+&emsp;2.3 运行`wl520cron`, `welove520`必须在`PATH`下。    
 
 `wl520cron.json`格式:
 ```
