@@ -1,7 +1,7 @@
-微爱GoGoGo [![Build Status](https://travis-ci.org/Bpazy/welove520.svg?branch=master)](https://travis-ci.org/Bpazy/welove520)
+微爱GoGoGo [![Build Status](https://travis-ci.org/Bpazy/welove520.svg?branch=master)](https://travis-ci.org/Bpazy/welove520) [![Gitter](http://badges.gitter.im/JoinChat.svg)](https://gitter.im/welove520/Lobby)
 =============
 
-### 下载并使用
+### 下载并使用 [API接口](https://github.com/Bpazy/welove520/blob/master/API.md)
 ```
 go get -u github.com/Bpazy/welove520
 ```
@@ -38,7 +38,7 @@ Usage of welove520:
         日志路径 (default "welove.log")
   -out string
         生成的配置文件路径 (default "welove.json")
-  -p    完成宠物任务
+  -p    完成宠物任务（需要完成的时候才会消耗物品）
   -port string
         我们的家Http代理端口号 (default ":8080")
   -s    启动我们的家HTTP代理
@@ -49,6 +49,16 @@ Usage of welove520:
         农场签到
 ```
 
-微爱API接口 [点击此处](https://github.com/Bpazy/welove520/blob/master/API.md)
+### 添加定时任务
+```
+#每30分钟检测完成我们的家所有任务和宠物任务
+*/30 * * * * /usr/bin/welove520 -c /etc/welove.json -log /home/han/welove/welove_han.log -a -p
 
+#每天凌晨1点和下午13点(两次是为了防止请求失败)检测并完成爱情树任务, 拜访20次任务, 农场签到任务
+0 1,13 * * * /usr/bin/welove520 -c /etc/welove.json -log /home/han/welove/welove_han.log -t -v=20 -farm-sign
+```
+
+捐赠本项目             | 　
+:-------------------------:|:-------------------------:
+<img src="https://cloud.githubusercontent.com/assets/9838749/24434697/c7d99414-1463-11e7-8931-1d88731fc1c5.png">  |  <img src="https://cloud.githubusercontent.com/assets/9838749/24434701/cbac6b84-1463-11e7-8839-7eae8cb42365.png">
 
