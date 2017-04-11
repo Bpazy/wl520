@@ -50,12 +50,42 @@ Usage of welove520:
 ```
 
 ### 添加定时任务
+1\. 你可以使用`Linux`的工具`cron`:
 ```
 #每30分钟检测完成我们的家所有任务和宠物任务
 */30 * * * * /usr/bin/welove520 -c /etc/welove.json -log /home/han/welove/welove_han.log -a -p
 
 #每天凌晨1点和下午13点(两次是为了防止请求失败)检测并完成爱情树任务, 拜访20次任务, 农场签到任务
 0 1,13 * * * /usr/bin/welove520 -c /etc/welove.json -log /home/han/welove/welove_han.log -t -v=20 -farm-sign
+```
+2\. 或者使用本项目提供的`wl520cron`:
+&emsp;2.1 获取`wl520cron`: `go get github.com/Bpazy/welove520/wl520cron`;
+&emsp;2.2 设置`wl520cron`的配置文件`wl520cron.json`;
+&emsp;2.3 运行`wl520cron`, `welove520`必须在`PATH`下。
+
+`wl520cron.json`格式:
+```
+ [
+   {
+     "cron": "* */30 * * * *",
+     "cmd": "-a -p"                // cmd为welove520的命令
+   },
+   {
+     "cron": "* 0 1,13 * * *",
+     "cmd": "-t -v=20 -farm-sign"
+   }
+ ]
+ ```
+`cron`表达式说明:
+```
+Field name   | Mandatory? | Allowed values  | Allowed special characters
+----------   | ---------- | --------------  | --------------------------
+Seconds      | Yes        | 0-59            | * / , -
+Minutes      | Yes        | 0-59            | * / , -
+Hours        | Yes        | 0-23            | * / , -
+Day of month | Yes        | 1-31            | * / , - ?
+Month        | Yes        | 1-12 or JAN-DEC | * / , -
+Day of week  | Yes        | 0-6 or SUN-SAT  | * / , - ?
 ```
 
 捐赠本项目             | 　
