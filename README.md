@@ -88,7 +88,8 @@ Month        | Yes        | 1-12 or JAN-DEC | * / , -
 Day of week  | Yes        | 0-6 or SUN-SAT  | * / , - ?
 ```
 
-捐赠本项目             | 　
-:-------------------------:|:-------------------------:
-<img src="https://cloud.githubusercontent.com/assets/9838749/24434697/c7d99414-1463-11e7-8931-1d88731fc1c5.png">  |  <img src="https://cloud.githubusercontent.com/assets/9838749/24434701/cbac6b84-1463-11e7-8839-7eae8cb42365.png">
-
+### Docker
+首先创建配置文件`wl520.json`和`wl520cron.json`并存放在一个目录中，然后运行`dcker`:
+```
+docker run -d -v /your-directory/wl520:/etc/wl520 hanziyuan08/wl520
+```
