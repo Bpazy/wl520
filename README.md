@@ -59,7 +59,7 @@ Usage of wl520:
 0 1,13 * * * /usr/bin/wl520 -c /etc/welove.json -log /home/han/welove/welove_han.log -t -v=20 -farm-sign
 ```
 2\. 或者使用本项目提供的`wl520cron`:    
-&emsp;2.1 获取`wl520cron`: `go get github.com/Bpazy/wl520/wl520cron`;
+&emsp;2.1 获取`wl520cron`: `go get github.com/Bpazy/wl520/wl520cron`;    
 &emsp;2.2 设置`wl520cron`的配置文件`wl520cron.json`;    
 &emsp;2.3 运行`wl520cron`, `wl520`必须在`PATH`下。
 
