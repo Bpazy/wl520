@@ -18,10 +18,10 @@ var w sync.WaitGroup
 
 func main() {
 	isServer := flag.Bool("s", false, "启动我们的家HTTP代理")
-	path := flag.String("out", "welove.json", "生成的配置文件路径")
+	path := flag.String("out", "wl520.json", "生成的配置文件路径")
 	port := flag.String("port", ":8080", "我们的家Http代理端口号")
 	allTask := flag.Bool("a", false, "完成所有我们的家互动任务")
-	configPath := flag.String("c", "welove.json", "配置文件位置")
+	configPath := flag.String("c", "wl520.json", "配置文件位置")
 	visitTimes := flag.Int("v", -1, "每日拜访次数")
 	outputPath := flag.String("log", "welove.log", "日志路径")
 	tree := flag.Bool("t", false, "完成爱情树任务")
