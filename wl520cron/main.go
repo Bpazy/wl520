@@ -8,10 +8,13 @@ import (
 	"github.com/robfig/cron"
 	"os/exec"
 	"strings"
+	"flag"
 )
 
 func main() {
-	wl520Crons := readConfig("wl520cron.json")
+	configPath := flag.String("c", "wl520cron.json", "配置文件路径")
+	flag.Parse()
+	wl520Crons := readConfig(*configPath)
 	c := cron.New()
 	for _, v := range wl520Crons {
 		cmdCloned := v.Cmd
