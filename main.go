@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"github.com/Bpazy/welove520/welove"
+	"github.com/Bpazy/wl520/welove"
 	"github.com/bitly/go-simplejson"
 	"io"
 	"io/ioutil"
@@ -34,7 +34,7 @@ func main() {
 	welove.ServerRun(*path, *port, *isServer)    //是否开启代理服务器
 	love := initConfig(*outputPath, *configPath) //读取配置文件
 
-	log.Println("welove520 start.")
+	log.Println("wl520 start.")
 	goFunc(buyItem, love, *buyItemId, *coin, *buyItemId) //购买指定物品
 	goFunc(doAllTasks, love, *allTask)                   //完成互动任务
 	goFunc(doVisit, *visitTimes, love)                   //拜访任务
@@ -42,7 +42,7 @@ func main() {
 	goFunc(doPetTasks, love, *pet)                       //宠物任务
 	goFunc(farmSign, love, *doFarmSign)                  //农场签到
 	w.Wait()
-	log.Println("welove520 end.")
+	log.Println("wl520 end.")
 }
 
 func goFunc(f interface{}, args ...interface{}) {

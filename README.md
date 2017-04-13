@@ -1,23 +1,23 @@
-微爱GoGoGo [![Build Status](https://travis-ci.org/Bpazy/welove520.svg?branch=master)](https://travis-ci.org/Bpazy/welove520) [![Gitter](http://badges.gitter.im/JoinChat.svg)](https://gitter.im/welove520/Lobby)
+微爱GoGoGo [![Build Status](https://travis-ci.org/Bpazy/wl520.svg?branch=master)](https://travis-ci.org/Bpazy/wl520) [![Gitter](http://badges.gitter.im/JoinChat.svg)](https://gitter.im/wl520/Lobby)
 =============
 
-### 下载并使用 [API接口](https://github.com/Bpazy/welove520/blob/master/API.md)
+### 下载并使用 [API接口](https://github.com/Bpazy/wl520/blob/master/API.md)
 ```
-go get -u github.com/Bpazy/welove520/...
+go get -u github.com/Bpazy/wl520/...
 ```
-或前往[Release](https://github.com/Bpazy/welove520/releases)下载适合您系统的版本。
+或前往[Release](https://github.com/Bpazy/wl520/releases)下载适合您系统的版本。
 
 ### 示例
 ```
 1. 生成配置文件 
-    welove520  -s -out welove.json
+    wl520  -s -out welove.json
 2. 根据配置文件完成任务 
-    welove520 -a -c welove.json
+    wl520 -a -c welove.json
 ```
 
 ### 配置文件JSON格式
 ```
-可以通过 welove520  -s -out welove.json 命令生成配置文件
+可以通过 wl520  -s -out welove.json 命令生成配置文件
 {
   "access_token": "562949961343086-21275eda53f055455f",
   "app_key": "ac5f34563a4344c4"
@@ -26,7 +26,7 @@ go get -u github.com/Bpazy/welove520/...
 
 ### 帮助
 ```
-Usage of welove520:
+Usage of wl520:
   -a    完成所有我们的家互动任务
   -buy int
         农场购买物品ID
@@ -53,22 +53,22 @@ Usage of welove520:
 1\. 你可以使用`Linux`的工具`cron`:
 ```
 #每30分钟检测完成我们的家所有任务和宠物任务
-*/30 * * * * /usr/bin/welove520 -c /etc/welove.json -log /home/han/welove/welove_han.log -a -p
+*/30 * * * * /usr/bin/wl520 -c /etc/welove.json -log /home/han/welove/welove_han.log -a -p
 
 #每天凌晨1点和下午13点(两次是为了防止请求失败)检测并完成爱情树任务, 拜访20次任务, 农场签到任务
-0 1,13 * * * /usr/bin/welove520 -c /etc/welove.json -log /home/han/welove/welove_han.log -t -v=20 -farm-sign
+0 1,13 * * * /usr/bin/wl520 -c /etc/welove.json -log /home/han/welove/welove_han.log -t -v=20 -farm-sign
 ```
 2\. 或者使用本项目提供的`wl520cron`:    
-&emsp;2.1 获取`wl520cron`: `go get github.com/Bpazy/welove520/wl520cron`;    
+&emsp;2.1 获取`wl520cron`: `go get github.com/Bpazy/wl520/wl520cron`;
 &emsp;2.2 设置`wl520cron`的配置文件`wl520cron.json`;    
-&emsp;2.3 运行`wl520cron`, `welove520`必须在`PATH`下。    
+&emsp;2.3 运行`wl520cron`, `wl520`必须在`PATH`下。
 
 `wl520cron.json`格式:
 ```
  [
    {
      "cron": "* */30 * * * *",
-     "cmd": "-a -p"                // cmd为welove520的命令
+     "cmd": "-a -p"                // cmd为wl520的命令
    },
    {
      "cron": "* 0 1,13 * * *",
