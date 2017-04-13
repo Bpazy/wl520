@@ -13,11 +13,15 @@ import (
 
 func main() {
 	configPath := flag.String("c", "wl520cron.json", "配置文件路径")
+	wlc := flag.String("wlc", "", "welove520配置文件路径")
 	flag.Parse()
 	wl520Crons := readConfig(*configPath)
 	c := cron.New()
 	for _, v := range wl520Crons {
 		cmdCloned := v.Cmd
+		if *wlc != "" {
+			cmdCloned = cmdCloned + " -c=" + *wlc
+		}
 		log.Printf("%s:%s\n", v.Cron, cmdCloned)
 		c.AddFunc(v.Cron, func() {
 			cmd := exec.Command("welove520", strings.Split(cmdCloned, " ")...)
