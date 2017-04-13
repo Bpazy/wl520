@@ -3,7 +3,7 @@
 
 ### 下载并使用 [API接口](https://github.com/Bpazy/welove520/blob/master/API.md)
 ```
-go get -u github.com/Bpazy/welove520
+go get -u github.com/Bpazy/welove520/...
 ```
 或前往[Release](https://github.com/Bpazy/welove520/releases)下载适合您系统的版本。
 
