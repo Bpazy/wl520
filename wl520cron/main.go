@@ -12,19 +12,20 @@ import (
 
 func main() {
 	wl520Crons := readConfig("wl520cron.json")
+	c := cron.New()
 	for _, v := range wl520Crons {
-		log.Printf("%s:%s\n", v.Cron, v.Cmd)
-		c := cron.New()
+		cmdCloned := v.Cmd
+		log.Printf("%s:%s\n", v.Cron, cmdCloned)
 		c.AddFunc(v.Cron, func() {
-			cmd := exec.Command("welove520", strings.Split(v.Cmd, " ")...)
+			cmd := exec.Command("welove520", strings.Split(cmdCloned, " ")...)
 			out, err := cmd.CombinedOutput()
 			if err != nil {
 				log.Fatal(err)
 			}
 			log.Println(string(out))
 		})
-		c.Start()
 	}
+	c.Start()
 	select {}
 }
 
