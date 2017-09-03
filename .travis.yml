@@ -8,3 +8,4 @@ install:
   - go get github.com/elazarl/goproxy
   - go get github.com/bitly/go-simplejson
   - go get github.com/robfig/cron
+  - go get github.com/satori/go.uuid
