@@ -12,6 +12,7 @@ import (
 	"reflect"
 	"strconv"
 	"sync"
+	"github.com/ltt1987/alidayu"
 )
 
 var w sync.WaitGroup
@@ -28,19 +29,21 @@ func main() {
 	pet := flag.Bool("p", false, "完成宠物任务")
 	buyItemId := flag.Int("buy", 0, "农场购买物品ID")
 	coin := flag.Int("coin", -1, "农场被购买物品ID的价格上限(闭区间)")
-	doFarmSign := flag.Bool("farm-sign", false, "农场签到")
+	farmSign := flag.Bool("farm-sign", false, "农场签到")
+	smsNotify := flag.Bool("sms-notify", false, "检查签到情况并发送短信")
 	flag.Parse()
 
-	welove.ServerRun(*path, *port, *isServer)    //是否开启代理服务器
-	love := initConfig(*outputPath, *configPath) //读取配置文件
+	welove.ServerRun(*path, *port, *isServer)    // 是否开启代理服务器
+	love := initConfig(*outputPath, *configPath) // 读取配置文件
 
 	log.Println("wl520 start.")
-	goFunc(buyItem, love, *buyItemId, *coin, *buyItemId) //购买指定物品
-	goFunc(doAllTasks, love, *allTask)                   //完成互动任务
-	goFunc(doVisit, *visitTimes, love)                   //拜访任务
-	goFunc(doTreePost, love, *tree)                      //爱情树任务
-	goFunc(doPetTasks, love, *pet)                       //宠物任务
-	goFunc(farmSign, love, *doFarmSign)                  //农场签到
+	goFunc(buyItem, love, *buyItemId, *coin, *buyItemId) // 购买指定物品
+	goFunc(doAllTasks, love, *allTask)                   // 完成互动任务
+	goFunc(doVisit, *visitTimes, love)                   // 拜访任务
+	goFunc(doTreePost, love, *tree)                      // 爱情树任务
+	goFunc(doPetTasks, love, *pet)                       // 宠物任务
+	goFunc(doFarmSign, love, *farmSign)                  // 农场签到
+	goFunc(doSmsNotify, love, *smsNotify)                // 检查签到情况并发送短信
 	w.Wait()
 	log.Println("wl520 end.")
 }
@@ -55,7 +58,38 @@ func goFunc(f interface{}, args ...interface{}) {
 	go v.Call(a)
 }
 
-func farmSign(love welove.Love, do bool) {
+func doSmsNotify(love welove.Love, smsNotify bool) {
+	defer w.Done()
+	if !smsNotify {
+		return
+	} else {
+		alidayu.AppKey = love.DayuAppKey
+		alidayu.AppSecret = love.DayuAppSecret
+	}
+	loveTreeSms(love)
+}
+
+func loveTreeSms(love welove.Love) {
+	bytes, err := welove.QueryTreeInfo(love.AccessToken, love.AppKey)
+	if err != nil {
+		log.Fatal(err)
+	}
+	js, _ := simplejson.NewJson(bytes)
+	var loverLackWater, _ = js.Get("lover_lack_water").Int()
+	var loverLackSunlight, _ = js.Get("lover_lack_sunlight").Int()
+	var lackWater, _ = js.Get("lack_water").Int()
+	var lackSunlight, _ = js.Get("lack_sunlight").Int()
+	if loverLackSunlight == 1 || loverLackWater == 1 {
+		success, resp := alidayu.SendSMS(love.LoverMobile, "ZY通知", love.DayuSunlightTemplateCode, `{"name":"女主人"}`)
+		log.Println(success, resp)
+	}
+	if lackWater == 1 || lackSunlight == 1 {
+		success, resp := alidayu.SendSMS(love.Mobile, "ZY通知", love.DayuSunlightTemplateCode, `{"name":"主人"}`)
+		log.Println(success, resp)
+	}
+}
+
+func doFarmSign(love welove.Love, do bool) {
 	defer w.Done()
 	if !do {
 		return

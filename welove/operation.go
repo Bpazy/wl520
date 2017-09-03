@@ -16,6 +16,8 @@ import (
 
 const KEY = "8b5b6eca8a9d1d1f"
 
+var sChan = make(chan string)
+
 func ServerRun(path, port string, server bool) {
 	if !server {
 		return
@@ -28,12 +30,17 @@ func ServerRun(path, port string, server bool) {
 	log.Fatal(http.ListenAndServe(port, proxy))
 }
 
-var sChan = make(chan string)
-
 // 配置文件
 type Love struct {
-	AccessToken string `json:"access_token"`
-	AppKey      string `json:"app_key"`
+	AccessToken              string `json:"access_token"`
+	AppKey                   string `json:"app_key"`
+	Mobile                   string `json:"mobile"`
+	LoverMobile              string `json:"lover_mobile"`
+	DayuAppKey               string `json:"dayu_app_key"`
+	DayuAppSecret            string `json:"dayu_app_secret"`
+	DayuSunlightTemplateCode string `json:"dayu_sunlight_template_code"`
+	DayuWaterTemplateCode    string `json:"dayu_water_template_code"`
+	DayuHomeTemplateCode     string `json:"dayu_home_template_code"`
 }
 
 func contentHandler(path string) {
