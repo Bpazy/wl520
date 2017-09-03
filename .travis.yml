@@ -9,3 +9,4 @@ install:
   - go get github.com/bitly/go-simplejson
   - go get github.com/robfig/cron
   - go get github.com/satori/go.uuid
+  - go get github.com/ltt1987/alidayu
