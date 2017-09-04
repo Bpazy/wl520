@@ -19,8 +19,16 @@ go get -u github.com/Bpazy/wl520/...
 ```
 可以通过 wl520  -s -out welove.json 命令生成配置文件
 {
-  "access_token": "562949961343086-21275eda53f055455f",
-  "app_key": "ac5f34563a4344c4"
+  "access_token": "562949961343086-****4d8f8d23b747a3",
+  "app_key": "ac5f345****344c4",
+  "mobile": "18*****2070",
+  "lover_mobile": "15*****8066",
+  // 阿里大于配置文件，如不需要短信提示功能，可不填
+  "dayu_app_key": "24****26",
+  "dayu_app_secret": "817711************8711d3f5228",
+  "dayu_sunlight_template_code": "SMS_********",
+  "dayu_water_template_code": "SMS_********",
+  "dayu_home_template_code": "SMS_********"
 }
 ```
 
