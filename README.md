@@ -21,9 +21,9 @@ go get -u github.com/Bpazy/wl520/...
 {
   "access_token": "562949961343086-****4d8f8d23b747a3",
   "app_key": "ac5f345****344c4",
+   // 阿里大于配置文件，如不需要短信提示功能，可不填
   "mobile": "18*****2070",
   "lover_mobile": "15*****8066",
-  // 阿里大于配置文件，如不需要短信提示功能，可不填
   "dayu_app_key": "24****26",
   "dayu_app_secret": "817711************8711d3f5228",
   "dayu_sunlight_template_code": "SMS_********",
