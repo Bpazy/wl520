@@ -5,6 +5,6 @@ node {
     }
     stage('go get')
     {
-        sh 'go install github.com/Bpazy/welove520'
+        sh 'go build github.com/Bpazy/welove520'
     }
 }
