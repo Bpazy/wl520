@@ -5,6 +5,6 @@ node {
     }
     stage('go get')
     {
-        sh 'go build .'
+        sh 'go build -o wl520 .'
     }
 }
