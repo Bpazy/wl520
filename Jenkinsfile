@@ -1,10 +1,14 @@
 node {
-    stage('git')
+    stage('pull source code')
     {
         git url: 'https://github.com/Bpazy/wl520.git'
     }
-    stage('go get')
+    stage('build')
     {
         sh 'go build -o wl520 .'
+    }
+    stage('deploy')
+    {
+        sh 'mv wl520 $GOPATH/bin/'
     }
 }
