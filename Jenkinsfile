@@ -8,7 +8,16 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh 'go build -o wl520 .'
+        parallel(
+          "Test": {
+            sh 'go test ./welove'
+            
+          },
+          "Build": {
+            sh 'go build -o wl520 .'
+            
+          }
+        )
       }
     }
     stage('Deploy') {
