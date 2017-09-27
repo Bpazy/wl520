@@ -1,5 +1,5 @@
 pipeline {
-    node {
+    stages {
         stage('pull source code')
         {
             git url: 'https://github.com/Bpazy/wl520.git'
