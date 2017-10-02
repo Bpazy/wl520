@@ -15,7 +15,7 @@ pipeline {
           },
           "Test": {
             sh 'go test ./welove'
-
+            
           },
           "Build": {
             sh 'go build -o wl520 .'
