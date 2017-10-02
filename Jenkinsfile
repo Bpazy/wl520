@@ -9,9 +9,13 @@ pipeline {
     stage('Build') {
       steps {
         parallel(
+          "Dependencies": {
+            sh 'godep restore'
+            
+          },
           "Test": {
             sh 'go test ./welove'
-            
+
           },
           "Build": {
             sh 'go build -o wl520 .'
