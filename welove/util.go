@@ -6,6 +6,9 @@ import (
 	"encoding/base64"
 	"hash"
 	"net/url"
+	"net/http"
+	"strings"
+	"log"
 )
 
 type Sig struct {
@@ -25,7 +28,7 @@ func (l *Sig) Encode(method, u string, data ...Data) string {
 	for _, v := range data {
 		content = content + v.key + "=" + v.value + "&"
 	}
-	content = content[0 : len(content)-1]
+	content = content[0: len(content)-1]
 	l.myMac.Write([]byte(method + "&" + url.QueryEscape(u) + "&" + url.QueryEscape(content)))
 	return base64.StdEncoding.EncodeToString(l.myMac.Sum(nil))
 }
@@ -33,4 +36,24 @@ func (l *Sig) Encode(method, u string, data ...Data) string {
 type Data struct {
 	key   string
 	value string
+}
+
+type WlHttpClient struct {
+	Client *http.Client
+}
+
+func NewWlHttpClient() *WlHttpClient {
+	client := &http.Client{}
+	wlClient := WlHttpClient{Client: client}
+	return &wlClient
+}
+
+func (client *WlHttpClient) Post(url string, data url.Values) (*http.Response, error) {
+	req, err := http.NewRequest("POST", url, strings.NewReader(data.Encode()))
+	if err != nil {
+		log.Fatal(err)
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Welove-UA", "[Device:ONEPLUSA5010][OSV:7.1.1][CV:Android4.0.3][WWAN:0][zh_CN][platform:tencent][WSP:2]")
+	return client.Client.Do(req)
 }
