@@ -1,4 +1,5 @@
 # API分析
+TIP. 从2017.12.15开始，部分接口需要设置Header(Welove-UA: [Device:PHONE_NO][OSV:7.1.1][CV:Android4.0.3][WWAN:0][zh_CN][platform:tencent][WSP:2])
 
 ### 1. URL
 `access_token`: `56294XXXX343086-27152XXXXXa5746dd`(抓包获取，登录之后保持不变)
@@ -1032,7 +1033,7 @@ http://api.welove520.com/v1/game/tree/records?access_token=562949961313211-2cxxx
 农场签到:
     http://api.welove520.com/v1/game/farm/signin
 参数:
-    access_token=562949961343086-21410ab7bf7c154d0d&sig=kUpY6Eq9nHISNmrPctgeazoPib4%3D
+    access_token=****&app_key=****&ph=farm&sig=****
 返回值:
     {
         "result": 1,
@@ -1040,15 +1041,28 @@ http://api.welove520.com/v1/game/tree/records?access_token=562949961313211-2cxxx
             {
                 "lover_records": [
                     {
-                        "date": "2017-03-04",
+                        "date": "2017-12-18",
                         "lasting_days": 0,
                         "invalid": 0,
                         "complete": 0
                     }
                 ],
-                "today": "2017-03-04",
+                "lasting_days": 115,
+                "discount_card_left": 1,
+                "max_cp_lasting_days": 86,
+                "record": [
+                    {
+                        "date": "2017-12-18",
+                        "lasting_days": 115,
+                        "invalid": 0,
+                        "complete": 1
+                    }
+                ],
+                "today": "2017-12-18",
                 "msg_type": 119,
-                "lover_lasting_days": 0
+                "lover_lasting_days": 86,
+                "card_count": 5,
+                "lover_card_count": 1
             }
         ]
     }
