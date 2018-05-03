@@ -46,6 +46,7 @@ func main() {
 	goFunc(doSmsNotify, love, *smsNotify)                // 检查签到情况并发送短信
 	w.Wait()
 	log.Println("wl520 end.")
+
 }
 
 func goFunc(f interface{}, args ...interface{}) {
