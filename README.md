@@ -97,7 +97,7 @@ Day of week  | Yes        | 0-6 or SUN-SAT  | * / , - ?
 ```
 
 ### Docker
-首先创建配置文件`wl520.json`和`wl520cron.json`并存放在一个目录中，然后运行`dcker`:
+首先创建配置文件`wl520.json`和`wl520cron.json`并存放在一个目录中，然后运行`docker`:
 ```
 docker run -d -v /your-directory/wl520:/etc/wl520 hanziyuan08/wl520
 ```

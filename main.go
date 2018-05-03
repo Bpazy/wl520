@@ -95,7 +95,7 @@ func doFarmSign(love welove.Love, do bool) {
 	if !do {
 		return
 	}
-	res, err := welove.FarmSign(love.AccessToken)
+	res, err := welove.FarmSign(love)
 	if err != nil {
 		log.Fatal(err)
 	}
