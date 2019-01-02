@@ -4,7 +4,7 @@ import (
 	bb "bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/elazarl/goproxy"
+	"gopkg.in/elazarl/goproxy.v1"
 	"io/ioutil"
 	"log"
 	"net/http"
