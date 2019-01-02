@@ -374,7 +374,7 @@ http://api.welove520.com/v1/game/tree/records?access_token=562949961313211-2cxxx
     }
 ```
 
-### 5. 农场 [物品ID](https://github.com/Bpazy/wl520/blob/master/ItemID.md)
+### 5. 农场 [物品ID](https://github.com/Bpazy/wl520/blob/master/document/ItemID.md)
 ```
 概况:
     http://api.welove520.com/v1/game/farm/panorama

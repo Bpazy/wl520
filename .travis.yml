@@ -5,7 +5,7 @@ go:
 
 install:
   - go get github.com/BurntSushi/toml
-  - go get github.com/elazarl/goproxy
+  - go get gopkg.in/elazarl/goproxy.v1
   - go get github.com/bitly/go-simplejson
   - go get github.com/robfig/cron
   - go get github.com/satori/go.uuid
