@@ -5,6 +5,7 @@ import (
 	"flag"
 	"github.com/Bpazy/wl520/welove"
 	"github.com/bitly/go-simplejson"
+	"github.com/ltt1987/alidayu"
 	"io"
 	"io/ioutil"
 	"log"
@@ -12,7 +13,6 @@ import (
 	"reflect"
 	"strconv"
 	"sync"
-	"github.com/ltt1987/alidayu"
 )
 
 var w sync.WaitGroup
