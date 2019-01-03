@@ -13,8 +13,8 @@ import (
 func FarmSign(love Love) (*http.Response, error) {
 	u := "http://api.welove520.com/v1/game/farm/signin"
 	sigEncoder := NewSig([]byte(KEY))
-	// TODO access_token=xxxx&sig=5d74e30439a6656c12aa6dd2f2a5cd85(md5 possible)&ts=1546446867977(timestamp)
-	timestamp := strconv.FormatInt(time.Now().Unix()*1000, 10)
+	// TODO access_token=xxxx&sig=5d74e30439a6656c12aa6dd2f2a5cd85(md5 possible)&ts=1546446867977(current timestamp)
+	timestamp := strconv.FormatInt(time.Now().UnixNano()/1e6, 10)
 
 	d1 := Data{"access_token", love.AccessToken}
 	d3 := Data{"app_key", love.AppKey}
