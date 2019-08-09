@@ -2,6 +2,8 @@ language: go
 
 go:
   - 1.7.1
+  - 1.12.7
+  - master
 
 install:
   - go get github.com/BurntSushi/toml
