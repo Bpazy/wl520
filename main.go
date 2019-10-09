@@ -17,21 +17,40 @@ import (
 
 var w sync.WaitGroup
 
-func main() {
-	isServer := flag.Bool("s", false, "启动我们的家HTTP代理")
-	path := flag.String("out", "wl520.json", "生成的配置文件路径")
-	port := flag.String("port", ":8080", "我们的家Http代理端口号")
-	allTask := flag.Bool("a", false, "完成所有我们的家互动任务")
-	configPath := flag.String("c", "wl520.json", "配置文件位置")
-	visitTimes := flag.Int("v", -1, "每日拜访次数")
-	outputPath := flag.String("log", "welove.log", "日志路径")
-	tree := flag.Bool("t", false, "完成爱情树任务")
-	pet := flag.Bool("p", false, "完成宠物任务")
-	buyItemId := flag.Int("buy", 0, "农场购买物品ID")
-	coin := flag.Int("coin", -1, "农场被购买物品ID的价格上限(闭区间)")
-	farmSign := flag.Bool("farm-sign", false, "农场签到")
-	smsNotify := flag.Bool("sms-notify", false, "检查签到情况并发送短信")
+var (
+	isServer   *bool
+	path       *string
+	port       *string
+	allTask    *bool
+	configPath *string
+	visitTimes *int
+	outputPath *string
+	tree       *bool
+	pet        *bool
+	buyItemId  *int
+	coin       *int
+	farmSign   *bool
+	smsNotify  *bool
+)
+
+func init() {
+	isServer = flag.Bool("s", false, "启动我们的家HTTP代理")
+	path = flag.String("out", "wl520.json", "生成的配置文件路径")
+	port = flag.String("port", ":8080", "我们的家Http代理端口号")
+	allTask = flag.Bool("a", false, "完成所有我们的家互动任务")
+	configPath = flag.String("c", "wl520.json", "配置文件位置")
+	visitTimes = flag.Int("v", -1, "每日拜访次数")
+	outputPath = flag.String("log", "welove.log", "日志路径")
+	tree = flag.Bool("t", false, "完成爱情树任务")
+	pet = flag.Bool("p", false, "完成宠物任务")
+	buyItemId = flag.Int("buy", 0, "农场购买物品ID")
+	coin = flag.Int("coin", -1, "农场被购买物品ID的价格上限(闭区间)")
+	farmSign = flag.Bool("farm-sign", false, "农场签到")
+	smsNotify = flag.Bool("sms-notify", false, "检查签到情况并发送短信")
 	flag.Parse()
+}
+
+func main() {
 
 	welove.ServerRun(*path, *port, *isServer)    // 是否开启代理服务器
 	love := initConfig(*outputPath, *configPath) // 读取配置文件
