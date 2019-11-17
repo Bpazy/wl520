@@ -51,7 +51,6 @@ func init() {
 }
 
 func main() {
-
 	welove.ServerRun(*path, *port, *isServer)    // 是否开启代理服务器
 	love := initConfig(*outputPath, *configPath) // 读取配置文件
 
