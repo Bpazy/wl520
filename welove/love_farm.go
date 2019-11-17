@@ -1,33 +1,36 @@
 package welove
 
 import (
+	"encoding/json"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
-	"log"
-	"io/ioutil"
-	"encoding/json"
+	"time"
 )
 
 func FarmSign(love Love) (*http.Response, error) {
 	u := "http://api.welove520.com/v1/game/farm/signin"
 	sigEncoder := NewSig([]byte(KEY))
+	// TODO access_token=xxxx&sig=5d74e30439a6656c12aa6dd2f2a5cd85(md5 possible)&ts=1546446867977(current timestamp)
+	timestamp := strconv.FormatInt(time.Now().UnixNano()/1e6, 10)
+
 	d1 := Data{"access_token", love.AccessToken}
 	d3 := Data{"app_key", love.AppKey}
-	d2 := Data{"ph", "farm"}
+	d2 := Data{"ts", timestamp}
 	sig := sigEncoder.Encode("POST", u, d1, d3, d2)
 
 	data := make(url.Values)
 	data.Add("access_token", love.AccessToken)
-	data.Add("app_key", love.AppKey)
-	data.Add("ph", "farm")
 	data.Add("sig", sig)
+	data.Add("ts", timestamp)
 
 	return NewWlHttpClient().Post(u, data)
 }
 
 type QueryItem struct {
-	Result int `json:"result"`
+	Result   int `json:"result"`
 	Messages []struct {
 		OpTime  int64 `json:"op_time"`
 		MsgType int   `json:"msg_type"`
@@ -65,15 +68,15 @@ func QueryItems(accessToken string) QueryItem {
 }
 
 type BuyItemStatus struct {
-	Result int `json:"result"`
+	Result   int `json:"result"`
 	Messages []struct {
 		StallItem struct {
 			BuyerHeadURL  string `json:"buyer_head_url"`
 			BuyerFarmName string `json:"buyer_farm_name"`
 			ID            int    `json:"id"`
 		} `json:"stall_item,omitempty"`
-		OpTime  int64 `json:"op_time"`
-		MsgType int   `json:"msg_type"`
+		OpTime     int64 `json:"op_time"`
+		MsgType    int   `json:"msg_type"`
 		Warehouses []struct {
 			Category int `json:"category"`
 			ItemsInc []struct {
