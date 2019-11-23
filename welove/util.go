@@ -7,7 +7,6 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"hash"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -53,7 +52,7 @@ func NewWlHttpClient() *WlHttpClient {
 func (client *WlHttpClient) Post(url string, data url.Values) (*http.Response, error) {
 	req, err := http.NewRequest("POST", url, strings.NewReader(data.Encode()))
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Welove-UA", "[Device:ONEPLUSA5010][OSV:7.1.1][CV:Android4.0.3][WWAN:0][zh_CN][platform:tencent][WSP:2]")
