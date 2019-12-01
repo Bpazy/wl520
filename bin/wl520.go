@@ -10,12 +10,8 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"reflect"
 	"strconv"
-	"sync"
 )
-
-var w sync.WaitGroup
 
 var (
 	isServer   *bool
@@ -55,30 +51,18 @@ func main() {
 	love := initConfig(*outputPath, *configPath) // 读取配置文件
 
 	log.Println("wl520 start.")
-	goFunc(buyItem, love, *buyItemId, *coin, *buyItemId) // 购买指定物品
-	goFunc(doAllTasks, love, *allTask)                   // 完成互动任务
-	goFunc(doVisit, *visitTimes, love)                   // 拜访任务
-	goFunc(doTreePost, love, *tree)                      // 爱情树任务
-	goFunc(doPetTasks, love, *pet)                       // 宠物任务
-	goFunc(doFarmSign, love, *farmSign)                  // 农场签到
-	goFunc(doSmsNotify, love, *smsNotify)                // 检查签到情况并发送短信
-	w.Wait()
+	buyItem(love, *buyItemId, *coin, *buyItemId) // 购买指定物品
+	doAllTasks(love, *allTask)                   // 完成互动任务
+	doVisit(*visitTimes, love)                   // 拜访任务
+	doTreePost(love, *tree)                      // 爱情树任务
+	doPetTasks(love, *pet)                       // 宠物任务
+	doFarmSign(love, *farmSign)                  // 农场签到
+	doSmsNotify(love, *smsNotify)                // 检查签到情况并发送短信
 	log.Println("wl520 end.")
 
 }
 
-func goFunc(f interface{}, args ...interface{}) {
-	v := reflect.ValueOf(f)
-	var a []reflect.Value
-	for _, v := range args {
-		a = append(a, reflect.ValueOf(v))
-	}
-	w.Add(1)
-	go v.Call(a)
-}
-
 func doSmsNotify(love welove.Love, smsNotify bool) {
-	defer w.Done()
 	if !smsNotify {
 		return
 	} else {
@@ -109,7 +93,6 @@ func loveTreeSms(love welove.Love) {
 }
 
 func doFarmSign(love welove.Love, do bool) {
-	defer w.Done()
 	if !do {
 		return
 	}
@@ -123,7 +106,6 @@ func doFarmSign(love welove.Love, do bool) {
 }
 
 func buyItem(love welove.Love, itemId, coin, buyItemId int) {
-	defer w.Done()
 	if buyItemId == 0 {
 		return
 	}
@@ -137,7 +119,6 @@ func buyItem(love welove.Love, itemId, coin, buyItemId int) {
 }
 
 func doTreePost(love welove.Love, tree bool) {
-	defer w.Done()
 	if !tree {
 		return
 	}
@@ -180,7 +161,6 @@ func setLogFile(outputPath string) {
 }
 
 func doVisit(visitTimes int, love welove.Love) {
-	defer w.Done()
 	if visitTimes == -1 {
 		return
 	}
@@ -199,7 +179,6 @@ func doVisit(visitTimes int, love welove.Love) {
 }
 
 func doAllTasks(love welove.Love, allTask bool) {
-	defer w.Done()
 	if !allTask {
 		return
 	}
@@ -223,7 +202,6 @@ func doAllTasks(love welove.Love, allTask bool) {
 }
 
 func doPetTasks(love welove.Love, doPet bool) {
-	defer w.Done()
 	if !doPet {
 		return
 	}
