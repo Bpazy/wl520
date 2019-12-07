@@ -1,14 +1,14 @@
 package main
 
 import (
+	"encoding/json"
+	"flag"
+	"github.com/robfig/cron"
 	"io/ioutil"
 	"log"
-	"encoding/json"
 	"os"
-	"github.com/robfig/cron"
 	"os/exec"
 	"strings"
-	"flag"
 )
 
 func main() {
@@ -27,7 +27,7 @@ func main() {
 			cmd := exec.Command("wl520", strings.Split(cmdCloned, " ")...)
 			out, err := cmd.CombinedOutput()
 			if err != nil {
-				log.Fatal(err)
+				panic(err)
 			}
 			log.Println(string(out))
 		})
@@ -41,7 +41,7 @@ func readConfig(configPath string) []Wl520Cron {
 	bytes, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		createCronFile(configPath)
-		log.Fatalf("配置文件不存在，已创建默认配置文件%s\n", configPath)
+		panicf("配置文件不存在，已创建默认配置文件%s\n", configPath)
 	}
 	wl520Crons := make([]Wl520Cron, 0)
 	json.Unmarshal(bytes, &wl520Crons)
@@ -58,7 +58,7 @@ func createCronFile(path string) {
 	var f, _ = os.OpenFile(path, os.O_CREATE|os.O_RDWR, os.ModeAppend)
 	defer f.Close()
 	wl520Crons := []Wl520Cron{{Cron: "* */30 * * * *", Cmd: "-a -p"},
-				  {Cron: "* 0 1,13 * * *", Cmd: "-t -v=20 -farm-sign"}}
+		{Cron: "* 0 1,13 * * *", Cmd: "-t -v=20 -farm-sign"}}
 	bytes, _ := json.MarshalIndent(wl520Crons, "", "  ")
 	f.Write(bytes)
 }

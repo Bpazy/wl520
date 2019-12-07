@@ -1,11 +1,10 @@
 package welove
 
 import (
-	"net/url"
-	"net/http"
-	"log"
-	"io/ioutil"
 	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
 type PetTaskResult struct {
@@ -36,14 +35,14 @@ func DoPetTask(accessToken, petId, taskType string) PetTaskResult {
 
 	res, err := http.PostForm(u, data)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer res.Body.Close()
 	bytes, _ := ioutil.ReadAll(res.Body)
 	result := PetTaskResult{}
 	err = json.Unmarshal(bytes, &result)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	return result
 }
@@ -76,13 +75,13 @@ func GetPetStatus(accessToken string) PetStatus {
 	res, err := http.PostForm(u, data)
 	defer res.Body.Close()
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	bytes, _ := ioutil.ReadAll(res.Body)
 	pet := PetStatus{}
 	err = json.Unmarshal(bytes, &pet)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	return pet
 }

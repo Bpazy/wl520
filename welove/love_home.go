@@ -1,12 +1,11 @@
 package welove
 
 import (
+	"github.com/bitly/go-simplejson"
+	"io/ioutil"
 	"net/http"
 	"net/url"
-	"github.com/bitly/go-simplejson"
 	"strconv"
-	"log"
-	"io/ioutil"
 )
 
 func HomePost(accessToken string, taskType int, loveSpaceId string) (*http.Response, error) {
@@ -39,12 +38,12 @@ func RandomHouse(accessToken string) (string, bool) {
 	values.Add("sig", sig)
 	res, err := http.PostForm(u, values)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	bytes, _ := ioutil.ReadAll(res.Body)
 	js, err := simplejson.NewJson(bytes)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	arr, err := js.Get("messages").Array()
 	house, ok := arr[0].(map[string]interface{})["house"].(map[string]interface{})

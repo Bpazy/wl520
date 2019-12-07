@@ -74,7 +74,7 @@ func httpHandler(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.R
 	}
 	buf, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	ori := ioutil.NopCloser(bb.NewBuffer(buf))
 	r.Body = ori
@@ -84,7 +84,7 @@ func httpHandler(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.R
 	if strings.Contains(content, "access_token") && strings.Contains(content, "app_key") {
 		dContent, err := url.QueryUnescape(content)
 		if err != nil {
-			log.Fatal(err)
+			panic(err)
 		}
 		log.Printf("Decode [%s] to [%s]\n", content, dContent)
 		sChan <- dContent

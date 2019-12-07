@@ -75,7 +75,7 @@ func doSmsNotify(love welove.Love, smsNotify bool) {
 func loveTreeSms(love welove.Love) {
 	bytes, err := welove.QueryTreeInfo(love.AccessToken, love.AppKey)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	js, _ := simplejson.NewJson(bytes)
 	var loverLackWater, _ = js.Get("lover_lack_water").Int()
@@ -98,7 +98,7 @@ func doFarmSign(love welove.Love, do bool) {
 	}
 	res, err := welove.FarmSign(love)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer res.Body.Close()
 	bytes, _ := ioutil.ReadAll(res.Body)
@@ -126,7 +126,7 @@ func doTreePost(love welove.Love, tree bool) {
 	for _, v := range op {
 		res, err := welove.TreePost(love.AccessToken, love.AppKey, v)
 		if err != nil {
-			log.Fatal(err)
+			panic(err)
 		}
 		bytes, _ := ioutil.ReadAll(res.Body)
 		js, _ := simplejson.NewJson(bytes)
@@ -144,7 +144,7 @@ func initConfig(outputPath, configPath string) welove.Love {
 func readConfig(configPath string) welove.Love {
 	bytes, err := ioutil.ReadFile(configPath)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	love := welove.Love{}
 	json.Unmarshal(bytes, &love)
@@ -155,7 +155,7 @@ func readConfig(configPath string) welove.Love {
 func setLogFile(outputPath string) {
 	var file, err = os.OpenFile(outputPath, os.O_APPEND|os.O_CREATE|os.O_RDWR, os.ModeAppend)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	log.SetOutput(io.MultiWriter(os.Stdout, file))
 }
@@ -168,7 +168,7 @@ func doVisit(visitTimes int, love welove.Love) {
 		if id, ok := welove.RandomHouse(love.AccessToken); ok {
 			res, err := welove.Visit(love.AccessToken, id)
 			if err != nil {
-				log.Fatal(err)
+				panic(err)
 			}
 			bytes, _ := ioutil.ReadAll(res.Body)
 			js, _ := simplejson.NewJson(bytes)
@@ -184,7 +184,7 @@ func doAllTasks(love welove.Love, allTask bool) {
 	}
 	res, err := welove.GetLoveSpaceIdRaw(love.AccessToken, love.AppKey)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	bytes, _ := ioutil.ReadAll(res.Body)
 	loveSpaceId := welove.GetLoveSpaceId(string(bytes))

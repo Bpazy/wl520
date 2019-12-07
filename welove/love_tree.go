@@ -1,11 +1,10 @@
 package welove
 
 import (
-	"net/http"
-	"strconv"
-	"net/url"
 	"io/ioutil"
-	"log"
+	"net/http"
+	"net/url"
+	"strconv"
 )
 
 func TreePost(accessToken, appKey string, op int) (*http.Response, error) {
@@ -42,7 +41,7 @@ func QueryTreeInfo(accessToken, appKey string) ([]byte, error) {
 	data.Add("sig", sig)
 	res, err := http.Get(u + "?" + data.Encode())
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer res.Body.Close()
 	return ioutil.ReadAll(res.Body)

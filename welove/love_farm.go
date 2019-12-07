@@ -3,7 +3,6 @@ package welove
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -59,7 +58,7 @@ func QueryItems(accessToken string) QueryItem {
 	data.Add("sig", sig)
 	res, err := http.PostForm(u, data)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	bytes, _ := ioutil.ReadAll(res.Body)
 	queryItem := QueryItem{}
@@ -104,7 +103,7 @@ func BuyItem(accessToken, sellerFarmId string, stallSaleId int) BuyItemStatus {
 	data.Add("sig", sig)
 	res, err := http.PostForm(u, data)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	defer res.Body.Close()
 	bytes, _ := ioutil.ReadAll(res.Body)
