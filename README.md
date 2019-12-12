@@ -101,3 +101,8 @@ Day of week  | Yes        | 0-6 or SUN-SAT  | * / , - ?
 ```
 docker run -d -v /your-directory/wl520:/etc/wl520 hanziyuan08/wl520
 ```
+
+### 编译
+```shell
+$ go build github.com/Bpazy/wl520/cmd/wl520
+```
