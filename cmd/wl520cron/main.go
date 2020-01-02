@@ -41,7 +41,7 @@ func readConfig(configPath string) []Wl520Cron {
 	bytes, err := ioutil.ReadFile(configPath)
 	if err != nil {
 		createCronFile(configPath)
-		panicf("配置文件不存在，已创建默认配置文件%s\n", configPath)
+		log.Fatalf("配置文件不存在，已创建默认配置文件%s\n", configPath)
 	}
 	wl520Crons := make([]Wl520Cron, 0)
 	json.Unmarshal(bytes, &wl520Crons)
