@@ -57,7 +57,7 @@ func SendSMS(mobileNo, signName, templateCode, paramString, appKey, appSecret st
 	params.Set("Timestamp", time.Now().UTC().Format("2006-01-02T15:04:05Z"))
 	params.Set("SignatureMethod", "HMAC-SHA1")
 	params.Set("SignatureVersion", "1.0")
-	uId, _ := uuid.NewV4()
+	uId := uuid.NewV4()
 	params.Set("SignatureNonce", strings.ToLower(uId.String()))
 	params.Set("AccessKeyId", appKey)
 	params.Add("Format", "JSON")
