@@ -1,8 +1,0 @@
-language: go
-
-go:
-  - 1.13.6
-
-script:
-  - go build github.com/Bpazy/wl520/cmd/wl520
-  - go build github.com/Bpazy/wl520/cmd/wl520cron

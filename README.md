@@ -1,13 +1,9 @@
 微爱GoGoGo
 =============
-[![Build Status](https://travis-ci.com/Bpazy/wl520.svg?branch=master)](https://travis-ci.com/Bpazy/wl520)
 [![Build Status](https://github.com/Bpazy/wl520/workflows/Build/badge.svg)](https://github.com/Bpazy/wl520/actions)
 
-### 下载并使用 [API接口](https://github.com/Bpazy/wl520/blob/master/document/API.md)
-```
-go get -u github.com/Bpazy/wl520/...
-```
-或前往[Release](https://github.com/Bpazy/wl520/releases)下载适合您系统的版本。
+### 下载并使用
+前往[Release](https://github.com/Bpazy/wl520/releases)下载适合您系统的版本。
 
 ### 示例
 ```
