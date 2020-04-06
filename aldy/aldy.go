@@ -77,7 +77,7 @@ func SendSMS(mobileNo, signName, templateCode, paramString, appKey, appSecret st
 
 	req.Header.Set("x-sdk-client", "Java/2.0.0")
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", "Java/1.6.0_45")
+	req.Header.Set("User-Agent", "wl520")
 
 	c := new(http.Client)
 	resp, err := c.Do(req)
