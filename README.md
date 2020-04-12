@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/Bpazy/wl520/workflows/Build/badge.svg)](https://github.com/Bpazy/wl520/actions)
 
 ### 下载并使用
-前往[Release](https://github.com/Bpazy/wl520/releases)下载适合您系统的版本。
+前往 [Release](https://github.com/Bpazy/wl520/releases) 下载适合您系统的版本。
 
 ### 示例
 ```
