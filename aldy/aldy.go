@@ -74,6 +74,9 @@ func SendSMS(mobileNo, signName, templateCode, paramString, appKey, appSecret st
 	signstr := signHMAC(params, appSecret)
 	params.Set("Signature", signstr)
 	req, err := http.NewRequest(http.MethodGet, dyURL+"/?"+params.Encode(), nil)
+	if err != nil {
+		return false, "", err
+	}
 
 	req.Header.Set("x-sdk-client", "Java/2.0.0")
 	req.Header.Set("Accept", "application/json")
