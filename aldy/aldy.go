@@ -30,7 +30,7 @@ type sendSmsResponse struct {
 }
 
 const (
-	dySmsApiUrl = "http://smsapi.aliyuncs.com"
+	dySmsApiUrl = "http://dysmsapi.aliyuncs.com"
 )
 
 // signHMAC 获取签名
