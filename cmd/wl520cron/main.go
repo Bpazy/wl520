@@ -60,5 +60,8 @@ func createCronFile(path string) {
 	wl520Crons := []Wl520Cron{{Cron: "* */30 * * * *", Cmd: "-a -p"},
 		{Cron: "* 0 1,13 * * *", Cmd: "-t -v=20 -farm-sign"}}
 	bytes, _ := json.MarshalIndent(wl520Crons, "", "  ")
-	f.Write(bytes)
+	_, err := f.Write(bytes)
+	if err != nil {
+		panic(err)
+	}
 }
