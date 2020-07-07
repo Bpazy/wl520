@@ -44,7 +44,10 @@ func readConfig(configPath string) []Wl520Cron {
 		log.Fatalf("配置文件不存在，已创建默认配置文件%s\n", configPath)
 	}
 	wl520Crons := make([]Wl520Cron, 0)
-	json.Unmarshal(bytes, &wl520Crons)
+	err = json.Unmarshal(bytes, &wl520Crons)
+	if err != nil {
+		log.Fatalf("配置文件格式错误%+v\n", err)
+	}
 	return wl520Crons
 }
 
