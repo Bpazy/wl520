@@ -62,7 +62,10 @@ func QueryItems(accessToken string) QueryItem {
 	}
 	bytes, _ := ioutil.ReadAll(res.Body)
 	queryItem := QueryItem{}
-	json.Unmarshal(bytes, &queryItem)
+	err = json.Unmarshal(bytes, &queryItem)
+	if err != nil {
+		return QueryItem{}
+	}
 	return queryItem
 }
 
