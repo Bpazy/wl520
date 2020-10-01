@@ -53,7 +53,10 @@ func contentHandler(path string) {
 		love.AccessToken = accessToken
 		love.AppKey = appKey
 		bytes, _ := json.MarshalIndent(love, "", "  ")
-		f.Write(bytes)
+		_, err := f.Write(bytes)
+		if err != nil {
+			panic(err)
+		}
 		fmt.Println("生成配置文件完毕：" + path)
 		os.Exit(0)
 	}
