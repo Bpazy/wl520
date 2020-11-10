@@ -65,7 +65,10 @@ func contentHandler(path string) {
 func extractValue(content, key string) (string, error) {
 	r := "(?:" + key + ")=(.+?)(&|$)"
 	reg, err := regexp.Compile(r)
-	return reg.FindAllStringSubmatch(content, -1)[0][1], err
+	if err != nil {
+		return "", err
+	}
+	return reg.FindAllStringSubmatch(content, -1)[0][1], nil
 }
 
 func httpHandler(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
