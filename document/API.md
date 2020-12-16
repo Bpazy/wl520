@@ -1,5 +1,7 @@
 # API分析
-TIP. 从2017.12.15开始，部分接口需要设置Header(Welove-UA: [Device:PHONE_NO][OSV:7.1.1][CV:Android4.0.3][WWAN:0][zh_CN][platform:tencent][WSP:2])
+ATTENTION: The document maybe deprecated at 2020.11.10.
+
+从2017.12.15开始，部分接口需要设置Header(Welove-UA: [Device:PHONE_NO][OSV:7.1.1][CV:Android4.0.3][WWAN:0][zh_CN][platform:tencent][WSP:2])
 
 ### 1. URL
 `access_token`: `56294XXXX343086-27152XXXXXa5746dd`(抓包获取，登录之后保持不变)
