@@ -56,7 +56,7 @@ Usage of wl520:
 ```
 
 ### 添加定时任务
-1\. 你可以使用`Linux`的工具`cron`:
+1\. 你可以使用 `Linux` 的工具 `cron`:
 ```
 #每30分钟检测完成我们的家所有任务和宠物任务
 */30 * * * * /usr/bin/wl520 -c /etc/welove.json -log /home/han/welove/welove_han.log -a -p
