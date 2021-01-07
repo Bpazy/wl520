@@ -62,7 +62,10 @@ func QueryItems(accessToken string) QueryItem {
 	}
 	bytes, _ := ioutil.ReadAll(res.Body)
 	queryItem := QueryItem{}
-	json.Unmarshal(bytes, &queryItem)
+	err = json.Unmarshal(bytes, &queryItem)
+	if err != nil {
+		return QueryItem{}
+	}
 	return queryItem
 }
 
@@ -108,6 +111,9 @@ func BuyItem(accessToken, sellerFarmId string, stallSaleId int) BuyItemStatus {
 	defer res.Body.Close()
 	bytes, _ := ioutil.ReadAll(res.Body)
 	buyItemStatus := BuyItemStatus{}
-	json.Unmarshal(bytes, &buyItemStatus)
+	err = json.Unmarshal(bytes, &buyItemStatus)
+	if err != nil {
+		return BuyItemStatus{}
+	}
 	return buyItemStatus
 }

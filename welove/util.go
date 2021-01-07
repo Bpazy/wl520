@@ -2,10 +2,8 @@ package welove
 
 import (
 	"crypto/hmac"
-	"crypto/md5"
 	"crypto/sha1"
 	"encoding/base64"
-	"encoding/hex"
 	"hash"
 	"net/http"
 	"net/url"
@@ -57,10 +55,4 @@ func (client *WlHttpClient) Post(url string, data url.Values) (*http.Response, e
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Welove-UA", "[Device:ONEPLUSA5010][OSV:7.1.1][CV:Android4.0.3][WWAN:0][zh_CN][platform:tencent][WSP:2]")
 	return client.Client.Do(req)
-}
-
-func Md5(s string) string {
-	h := md5.New()
-	h.Write([]byte(s))
-	return hex.EncodeToString(h.Sum(nil))
 }

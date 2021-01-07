@@ -53,7 +53,10 @@ func contentHandler(path string) {
 		love.AccessToken = accessToken
 		love.AppKey = appKey
 		bytes, _ := json.MarshalIndent(love, "", "  ")
-		f.Write(bytes)
+		_, err := f.Write(bytes)
+		if err != nil {
+			panic(err)
+		}
 		fmt.Println("生成配置文件完毕：" + path)
 		os.Exit(0)
 	}
@@ -62,7 +65,10 @@ func contentHandler(path string) {
 func extractValue(content, key string) (string, error) {
 	r := "(?:" + key + ")=(.+?)(&|$)"
 	reg, err := regexp.Compile(r)
-	return reg.FindAllStringSubmatch(content, -1)[0][1], err
+	if err != nil {
+		return "", err
+	}
+	return reg.FindAllStringSubmatch(content, -1)[0][1], nil
 }
 
 func httpHandler(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {

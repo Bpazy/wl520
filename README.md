@@ -56,7 +56,7 @@ Usage of wl520:
 ```
 
 ### 添加定时任务
-1\. 你可以使用`Linux`的工具`cron`:
+1\. 你可以使用 `Linux` 的工具 `cron`:
 ```
 #每30分钟检测完成我们的家所有任务和宠物任务
 */30 * * * * /usr/bin/wl520 -c /etc/welove.json -log /home/han/welove/welove_han.log -a -p
@@ -82,7 +82,7 @@ Usage of wl520:
    }
  ]
  ```
-`cron`表达式说明:
+`cron` 表达式说明:
 ```
 Field name   | Mandatory? | Allowed values  | Allowed special characters
 ----------   | ---------- | --------------  | --------------------------
@@ -95,7 +95,7 @@ Day of week  | Yes        | 0-6 or SUN-SAT  | * / , - ?
 ```
 
 ### Docker
-首先创建配置文件`wl520.json`和`wl520cron.json`并存放在一个目录中，然后运行`docker`:
+首先创建配置文件 `wl520.json` 和 `wl520cron.json` 并存放在一个目录中，然后运行 `docker`:
 ```
 docker run -d -v /your-directory/wl520:/etc/wl520 bpazy/wl520
 ```

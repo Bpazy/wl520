@@ -30,7 +30,7 @@ type sendSmsResponse struct {
 }
 
 const (
-	dyURL = "http://dysmsapi.aliyuncs.com"
+	dySmsApiUrl = "http://dysmsapi.aliyuncs.com"
 )
 
 // signHMAC 获取签名
@@ -73,11 +73,14 @@ func SendSMS(mobileNo, signName, templateCode, paramString, appKey, appSecret st
 
 	signstr := signHMAC(params, appSecret)
 	params.Set("Signature", signstr)
-	req, err := http.NewRequest(http.MethodGet, dyURL+"/?"+params.Encode(), nil)
+	req, err := http.NewRequest(http.MethodGet, dySmsApiUrl+"/?"+params.Encode(), nil)
+	if err != nil {
+		return false, "", err
+	}
 
-	req.Header.Set("x-sdk-client", "Java/2.0.0")
+	req.Header.Set("x-sdk-client", "wl520")
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", "Java/1.6.0_45")
+	req.Header.Set("User-Agent", "wl520")
 
 	c := new(http.Client)
 	resp, err := c.Do(req)
